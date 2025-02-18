@@ -1,9 +1,10 @@
-
 import Foundation
 
-struct ProductDetails {
-    let name: String
-    let imageUrl: String
-    let description: String
+struct ProductDetails: Codable {
+    let id: Int
+    let title: String
     let price: Double
+    let description: String
+    let category: String
+    let image: String
 }
