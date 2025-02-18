@@ -1,6 +1,7 @@
 import UIKit
 
 class ShoppingListViewController: UIViewController, UITableViewDataSource {
+    // Variables
     var fetchData = FakeStoreAPI()
     var productLists = [ProductDetails]() {
         didSet {
@@ -9,9 +10,14 @@ class ShoppingListViewController: UIViewController, UITableViewDataSource {
             }
         }
     }
-
+    var imageCache = NSCache<NSString, UIImage>() // For Image Cache
+    
+    
+    // Segue
     @IBOutlet weak var tableProductList: UITableView!
     
+    
+    // Screen OnLoad
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -21,6 +27,7 @@ class ShoppingListViewController: UIViewController, UITableViewDataSource {
         }
     }
 
+    // Functions
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return productLists.count
     }
@@ -28,18 +35,27 @@ class ShoppingListViewController: UIViewController, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableProductList.dequeueReusableCell(withIdentifier: "ProdListViewCell", for: indexPath) as! ProdListViewCell
         cell.prodNameLabel.text = productLists[indexPath.row].title
-        // Load image from URL asynchronously
+        cell.prodPriceLabel.text = "$\(String(productLists[indexPath.row].price))"
+        
         let product = productLists[indexPath.row]
-        if let imageUrl = URL(string: product.image) {
-            URLSession.shared.dataTask(with: imageUrl) { (data, response, error) in
-                if let data = data, error == nil {
-                    DispatchQueue.main.async {
-                        cell.prodImageView.image = UIImage(data: data)
+        let imageUrlString = product.image
+                if let cachedImage = imageCache.object(forKey: imageUrlString as NSString) {
+                    // Use cached image
+                    cell.prodImageView.image = cachedImage
+                } else {
+                    // Download image asynchronously
+                    if let imageUrl = URL(string: imageUrlString) {
+                        URLSession.shared.dataTask(with: imageUrl) { [weak self] (data, response, error) in
+                            if let data = data, let image = UIImage(data: data), error == nil {
+                                DispatchQueue.main.async {
+                                    self?.imageCache.setObject(image, forKey: imageUrlString as NSString)
+                                    cell.prodImageView.image = image
+                                }
+                            }
+                        }.resume()
                     }
                 }
-            }.resume()
-        }
-        cell.prodPriceLabel.text = String(productLists[indexPath.row].price)
+        
         return cell
     }
 }

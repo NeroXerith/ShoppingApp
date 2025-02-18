@@ -6,14 +6,14 @@ class FakeStoreAPI {
         
         guard let url = URL(string: apiURL) else {
             print("Invalid URL")
-            completionHandler([]) // Return empty array if URL is invalid
+            completionHandler([])
             return
         }
         
         let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
             if let error = error {
                 print("Error fetching data: \(error.localizedDescription)")
-                completionHandler([]) // Return empty array on error
+                completionHandler([]) 
                 return
             }
             
