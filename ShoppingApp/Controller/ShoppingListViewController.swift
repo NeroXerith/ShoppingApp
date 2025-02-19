@@ -1,6 +1,6 @@
 import UIKit
 
-class ShoppingListViewController: UIViewController, UITableViewDataSource {
+class ShoppingListViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     // Variables
     var fetchData = FakeStoreAPI()
     var productLists = [ProductDetails]() {
@@ -22,12 +22,14 @@ class ShoppingListViewController: UIViewController, UITableViewDataSource {
         super.viewDidLoad()
         
         tableProductList.dataSource = self
+        tableProductList.delegate = self
+        
         fetchData.fetchData { [weak self] products in
             self?.productLists = products
         }
     }
 
-    // Functions
+    // TableView Functions
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return productLists.count
     }
@@ -57,6 +59,20 @@ class ShoppingListViewController: UIViewController, UITableViewDataSource {
                 }
         
         return cell
+    }
+    
+
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let selectedProduct = productLists[indexPath.row]
+        
+        // Instantiate
+        if let productDetailsVC = self.storyboard?.instantiateViewController(withIdentifier: "ProductViewController") as? ProductViewController {
+            
+            productDetailsVC.selectedProduct = selectedProduct
+            
+            navigationController?.pushViewController(productDetailsVC, animated: true)
+        }
+        
     }
 }
 
