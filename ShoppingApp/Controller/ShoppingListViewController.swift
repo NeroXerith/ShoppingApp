@@ -27,8 +27,19 @@ class ShoppingListViewController: UIViewController, UITableViewDataSource, UITab
         fetchData.fetchData { [weak self] products in
             self?.productLists = products
         }
+        
+        lazy var refreshControl = UIRefreshControl()
+        refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
+        refreshControl.addTarget(self, action: #selector(self.refresh(_:)), for: .valueChanged)
+        tableProductList.addSubview(refreshControl)
     }
-
+    @objc func refresh(_ sender: Any?) {
+        fetchData.fetchData { [weak self] products in
+            self?.productLists = products
+        }
+        (sender as? UIRefreshControl)?.endRefreshing()
+        print("Pulled!")
+    }
     // TableView Functions
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return productLists.count
