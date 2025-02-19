@@ -7,39 +7,83 @@ class ShoppingListViewController: UIViewController, UITableViewDataSource, UITab
         didSet {
             DispatchQueue.main.async {
                 self.tableProductList.reloadData()
+                self.progressView.setProgress(1.0, animated: true)
+                
+                // Hide progress bar after a short delay
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                    self.progressView.isHidden = true
+                }
             }
         }
     }
-    var imageCache = NSCache<NSString, UIImage>() // For Image Cache
-    
-    
-    // Segue
+
+    var progressView: UIProgressView!
+    var refreshControl = UIRefreshControl()
+    var imageCache = NSCache<NSString, UIImage>()
+
     @IBOutlet weak var tableProductList: UITableView!
-    
-    
-    // Screen OnLoad
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
         tableProductList.dataSource = self
         tableProductList.delegate = self
+
+        setupProgressView()
+        setupRefreshControl()
+        fetchProducts()
+    }
+
+
+    func setupProgressView() {
+        progressView = UIProgressView(progressViewStyle: .default)
+        progressView.translatesAutoresizingMaskIntoConstraints = false
+        progressView.progressTintColor = .blue
+        progressView.progress = 0.0
+        progressView.isHidden = false // Show when starting
+
+        navigationController?.navigationBar.addSubview(progressView)
+
+        NSLayoutConstraint.activate([
+            progressView.leadingAnchor.constraint(equalTo: navigationController!.navigationBar.leadingAnchor),
+            progressView.trailingAnchor.constraint(equalTo: navigationController!.navigationBar.trailingAnchor),
+            progressView.bottomAnchor.constraint(equalTo: navigationController!.navigationBar.bottomAnchor),
+            progressView.heightAnchor.constraint(equalToConstant: 2)
+        ])
+    }
+
+  
+    func setupRefreshControl() {
+        refreshControl.tintColor = .clear
+        refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
+        tableProductList.refreshControl = refreshControl
+    }
+
+  
+    func fetchProducts() {
+        progressView.progress = 0.1
+        progressView.isHidden = false
         
         fetchData.fetchData { [weak self] products in
-            self?.productLists = products
+            DispatchQueue.main.async {
+                self?.productLists = products
+                self?.progressView.setProgress(1.0, animated: true)
+                
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                    self?.progressView.isHidden = true
+                    self?.refreshControl.endRefreshing()
+                }
+            }
         }
-        
-        lazy var refreshControl = UIRefreshControl()
-        refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
-        refreshControl.addTarget(self, action: #selector(self.refresh(_:)), for: .valueChanged)
-        tableProductList.addSubview(refreshControl)
     }
-    @objc func refresh(_ sender: Any?) {
-        fetchData.fetchData { [weak self] products in
-            self?.productLists = products
-        }
-        (sender as? UIRefreshControl)?.endRefreshing()
-        print("Pulled!")
+    
+    @objc func refresh() {
+        progressView.setProgress(0.1, animated: true) // Reset progress
+        fetchProducts()
+        print("Pulled to refresh!")
     }
+    
+    
     // TableView Functions
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return productLists.count
