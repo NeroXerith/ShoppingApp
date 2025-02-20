@@ -10,10 +10,15 @@ class FakeStoreAPI {
             return
         }
         
-        let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
+        let dataTask = URLSession.shared.dataTask(with: url) { (data, response, error) in
             if let error = error {
                 print("Error fetching data: \(error.localizedDescription)")
-                completionHandler([]) 
+                completionHandler([])
+                return
+            }
+            
+            guard let response = response as? HTTPURLResponse else {
+                print("No response received from API")
                 return
             }
             
@@ -32,6 +37,6 @@ class FakeStoreAPI {
             }
         }
         
-        task.resume()
+        dataTask.resume()
     }
 }
