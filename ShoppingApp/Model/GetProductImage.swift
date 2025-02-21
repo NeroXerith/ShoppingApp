@@ -10,10 +10,11 @@ import UIKit
 class GetProductImage {
     
     private let imageCache = NSCache<NSString, UIImage>()
+    private var runningTasks: [String: URLSessionDataTask] = [:]
     
     // MARK: - Image Place Holder
     private let placeholderImage: UIImage = UIImage(systemName: "photo")!
-    private let errorHandlerImage: UIImage = UIImage(systemName: "exclamaitonmark.triangle")!
+    private let errorHandlerImage: UIImage = UIImage(systemName: "exclamationmark.triangle")!
     
     func fetchImage(from urlString: String, completion: @escaping (UIImage?) -> Void) {
         
@@ -22,6 +23,8 @@ class GetProductImage {
             completion(cachedImage)
             return
         }
+        
+        cancelImageFetch(from: urlString)
         
         // Placeholder while image is onload
         completion(placeholderImage)
@@ -32,7 +35,7 @@ class GetProductImage {
             return
         }
         
-        URLSession.shared.dataTask(with: url) { [weak self] (data, response, error) in
+        let dataTask = URLSession.shared.dataTask(with: url) { [weak self] (data, response, error) in
             if let data = data, let image = UIImage(data: data), error == nil {
                 self?.imageCache.setObject(image, forKey: urlString as NSString)
                 DispatchQueue.main.async {
@@ -44,6 +47,14 @@ class GetProductImage {
                 }
             }
         
-        }.resume()
+        }
+        
+        runningTasks[urlString] = dataTask
+        dataTask.resume()
+    }
+    
+    func cancelImageFetch(from urlString: String) {
+        runningTasks[urlString]?.cancel()
+        runningTasks.removeValue(forKey: urlString)
     }
 }
