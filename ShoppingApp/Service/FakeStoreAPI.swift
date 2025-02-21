@@ -1,19 +1,18 @@
 import Foundation
 
 class FakeStoreAPI {
-    func fetchData(completionHandler: @escaping ([ProductDetails]) -> Void) {
+    func fetchData(completionHandler: @escaping (Result<[ProductDetails], Error>) -> Void) {
         let apiURL = "https://fakestoreapi.com/products"
         
         guard let url = URL(string: apiURL) else {
             print("Invalid URL")
-            completionHandler([])
             return
         }
         
         let dataTask = URLSession.shared.dataTask(with: url) { (data, response, error) in
             if let error = error {
                 print("Error fetching data: \(error.localizedDescription)")
-                completionHandler([])
+                completionHandler(.failure(error))
                 return
             }
             
@@ -24,16 +23,17 @@ class FakeStoreAPI {
             
             guard let data = data else {
                 print("No data received from API")
-                completionHandler([])
                 return
             }
             
+            print("Response statuse code: \(response.statusCode)" )
+            
             do {
                 let products = try JSONDecoder().decode([ProductDetails].self, from: data)
-                completionHandler(products)
+                completionHandler(.success(products))
             } catch {
                 print("Failed to decode JSON: \(error.localizedDescription)")
-                completionHandler([])
+                completionHandler(.failure(error))
             }
         }
         
