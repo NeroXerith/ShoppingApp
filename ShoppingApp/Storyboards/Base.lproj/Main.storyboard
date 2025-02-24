@@ -104,7 +104,7 @@
         <!--Product Details-->
         <scene sceneID="KyO-Ai-sPh">
             <objects>
-                <viewController storyboardIdentifier="ProductViewController" title="Product Details" id="tt5-KT-4I6" customClass="ProductDetailsViewController" customModule="ShoppingApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ProductDetailsViewController" title="Product Details" id="tt5-KT-4I6" customClass="ProductDetailsViewController" customModule="ShoppingApp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="21S-Iz-WeI">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
