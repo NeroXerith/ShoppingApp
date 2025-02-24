@@ -12,6 +12,7 @@ class ProdListViewCell: UITableViewCell {
     @IBOutlet weak var prodImageView: UIImageView!
     @IBOutlet weak var prodNameLabel: UILabel!
     @IBOutlet weak var prodPriceLabel: UILabel!
+    @IBOutlet weak var prodCategory: UILabel!
     
     static let identifier = "ProdListViewCell"
     
@@ -22,6 +23,10 @@ class ProdListViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        
+        let tableCellLabelProdHeight = prodNameLabel.optimalHeight
+        prodNameLabel.frame = CGRect(x: prodNameLabel.frame.origin.x, y: prodNameLabel.frame.origin.y, width: prodNameLabel.frame.width, height: tableCellLabelProdHeight)
+        prodNameLabel.numberOfLines = 0
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

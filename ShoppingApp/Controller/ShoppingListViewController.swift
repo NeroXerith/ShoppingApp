@@ -2,29 +2,30 @@ import UIKit
 
 class ShoppingListViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UITableViewDataSourcePrefetching {
     
-    // Variables
+    // MARK: - VARIABLES
     private let fetchProdImage = GetProductImage()
     var fakeStoreAPI = FakeStoreAPI()
     var productLists = [ProductDetails]() {
         didSet {
-            tableProductList.reloadData()
+            productTable.reloadData()
             hideProgressView()
         }
     }
 
+
     var progressView: UIProgressView!
     var refreshControl = UIRefreshControl()
     
-
-    @IBOutlet weak var tableProductList: UITableView!
+    // MARK: - SEGUE
+    @IBOutlet weak var productTable: UITableView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        tableProductList.dataSource = self
-        tableProductList.delegate = self
-        tableProductList.prefetchDataSource = self // Prefetching
-
+        productTable.dataSource = self
+        productTable.delegate = self
+        productTable.prefetchDataSource = self // Prefetching
+     
         setupProgressView()
         setupRefreshControl()
         fetchProducts()
@@ -63,7 +64,7 @@ class ShoppingListViewController: UIViewController, UITableViewDataSource, UITab
     func setupRefreshControl() {
         refreshControl.tintColor = .clear
         refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
-        tableProductList.refreshControl = refreshControl
+        productTable.refreshControl = refreshControl
     }
 
     @objc func refresh() {
@@ -98,7 +99,7 @@ class ShoppingListViewController: UIViewController, UITableViewDataSource, UITab
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableProductList.dequeueReusableCell(withIdentifier: "ProdListViewCell", for: indexPath) as! ProdListViewCell
+        let cell = productTable.dequeueReusableCell(withIdentifier: "ProdListViewCell", for: indexPath) as! ProdListViewCell
         let product = productLists[indexPath.row]
         
         cell.prodNameLabel.text = product.title
@@ -107,6 +108,8 @@ class ShoppingListViewController: UIViewController, UITableViewDataSource, UITab
         fetchProdImage.fetchImage(from: product.image) { image in
             cell.prodImageView.image = image
         }
+        
+        cell.prodCategory.text = product.category
         
         return cell
     }
