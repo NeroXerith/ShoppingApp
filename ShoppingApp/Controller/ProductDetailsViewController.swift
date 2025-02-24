@@ -17,6 +17,7 @@ class ProductDetailsViewController: UIViewController {
     @IBOutlet weak var labelProdRating: UILabel!
     @IBOutlet weak var labelRatingCount: UILabel!
     
+    @IBOutlet weak var averageStarView: AverageStarView!
     // Variables
     var selectedProduct: ProductDetails?
     
@@ -40,6 +41,7 @@ class ProductDetailsViewController: UIViewController {
             labelProdCategory.text = product.category
             labelProdRating.text = String(product.rating.rate)
             labelRatingCount.text = String(product.rating.count) + " ratings"
+            averageStarView.updateStarRating(rating: product.rating.rate)
         }
         
         let labelProdNameHeight = labelProdName.optimalHeight

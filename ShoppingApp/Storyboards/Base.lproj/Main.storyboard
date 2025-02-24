@@ -160,6 +160,11 @@
                                         <color key="textColor" systemColor="secondaryLabelColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
+                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="s9n-YW-Kaq" customClass="AverageStarView" customModule="ShoppingApp" customModuleProvider="target">
+                                        <rect key="frame" x="152" y="429" width="204" height="49"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                    </view>
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="xQn-kP-EQP" firstAttribute="leading" secondItem="Mt9-7n-aIa" secondAttribute="leadingMargin" constant="12" id="2DO-jv-nTu"/>
@@ -200,6 +205,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="averageStarView" destination="s9n-YW-Kaq" id="Jpj-R0-i8w"/>
                         <outlet property="imageProduct" destination="38S-jg-elQ" id="HcN-hy-YfQ"/>
                         <outlet property="labelProdCategory" destination="xQn-kP-EQP" id="XSr-k8-vfm"/>
                         <outlet property="labelProdDesc" destination="C5i-zP-2jZ" id="diw-uw-erF"/>
@@ -231,16 +237,31 @@
             </objects>
             <point key="canvasLocation" x="139.69465648854961" y="3.5211267605633805"/>
         </scene>
+        <!--View Controller-->
+        <scene sceneID="Nkh-FJ-9tl">
+            <objects>
+                <viewController id="uxm-CH-n6c" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="bzN-is-LIc">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="01K-LS-beF"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ada-Lv-zsZ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1863" y="-418"/>
+        </scene>
     </scenes>
     <resources>
         <systemColor name="secondaryLabelColor">
-            <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.23529411759999999" green="0.23529411759999999" blue="0.26274509800000001" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
         <systemColor name="systemRedColor">
-            <color red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>
