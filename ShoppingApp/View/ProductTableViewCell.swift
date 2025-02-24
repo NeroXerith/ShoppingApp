@@ -1,5 +1,5 @@
 //
-//  ProdListViewCell.swift
+//  ProductTableViewCell.swift
 //  ShoppingApp
 //
 //  Created by Biene Bryle Sanico on 2/18/25.
@@ -7,17 +7,17 @@
 
 import UIKit
 
-class ProdListViewCell: UITableViewCell {
+class ProductTableViewCell: UITableViewCell {
     
     @IBOutlet weak var prodImageView: UIImageView!
     @IBOutlet weak var prodNameLabel: UILabel!
     @IBOutlet weak var prodPriceLabel: UILabel!
     @IBOutlet weak var prodCategory: UILabel!
     
-    static let identifier = "ProdListViewCell"
+    static let identifier = "ProductTableViewCell"
     
     static func nib() -> UINib {
-        return UINib(nibName: "ProdListViewCell", bundle: nil)
+        return UINib(nibName: "ProductTableViewCell", bundle: nil)
     }
 
     override func awakeFromNib() {

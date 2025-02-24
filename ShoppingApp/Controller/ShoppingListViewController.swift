@@ -99,7 +99,7 @@ class ShoppingListViewController: UIViewController, UITableViewDataSource, UITab
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = productTable.dequeueReusableCell(withIdentifier: "ProdListViewCell", for: indexPath) as! ProdListViewCell
+        let cell = productTable.dequeueReusableCell(withIdentifier: "ProductTableViewCell", for: indexPath) as! ProductTableViewCell
         let product = productLists[indexPath.row]
         
         cell.prodNameLabel.text = product.title
@@ -117,7 +117,7 @@ class ShoppingListViewController: UIViewController, UITableViewDataSource, UITab
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let selectedProduct = productLists[indexPath.row]
         
-        if let productDetailsVC = storyboard?.instantiateViewController(withIdentifier: "ProductViewController") as? ProductViewController {
+        if let productDetailsVC = storyboard?.instantiateViewController(withIdentifier: "ProductDetailsViewController") as? ProductDetailsViewController {
             productDetailsVC.selectedProduct = selectedProduct
             navigationController?.pushViewController(productDetailsVC, animated: true)
         }
