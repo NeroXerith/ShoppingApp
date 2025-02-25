@@ -23,7 +23,11 @@ class ProductDetailsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        // UILabel Programitacally
+        labelRatingCount.layer.masksToBounds = true
+        
+        
         if let product = selectedProduct {
             labelProdName.text = product.title
             labelProdDesc.text = product.description
@@ -40,7 +44,7 @@ class ProductDetailsViewController: UIViewController {
                         }
             labelProdCategory.text = product.category
             labelProdRating.text = String(product.rating.rate)
-            labelRatingCount.text = String(product.rating.count) + " ratings"
+            labelRatingCount.text = " \(String(product.rating.count)) reviews \u{200c}"
             averageStarView.updateStarRating(rating: product.rating.rate)
         }
         
