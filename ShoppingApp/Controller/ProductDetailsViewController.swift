@@ -7,13 +7,17 @@
 
 import UIKit
 
-class ProductViewController: UIViewController {
+class ProductDetailsViewController: UIViewController {
     // Segue
     @IBOutlet weak var imageProduct: UIImageView!
     @IBOutlet weak var labelProdName: UILabel!
     @IBOutlet weak var labelProdDesc: UILabel!
     @IBOutlet weak var labelProdPrice: UILabel!
+    @IBOutlet weak var labelProdCategory: UILabel!
+    @IBOutlet weak var labelProdRating: UILabel!
+    @IBOutlet weak var labelRatingCount: UILabel!
     
+    @IBOutlet weak var averageStarView: AverageStarView!
     // Variables
     var selectedProduct: ProductDetails?
     
@@ -34,7 +38,12 @@ class ProductViewController: UIViewController {
                                 }
                             }.resume()
                         }
+            labelProdCategory.text = product.category
+            labelProdRating.text = String(product.rating.rate)
+            labelRatingCount.text = String(product.rating.count) + " ratings"
+            averageStarView.updateStarRating(rating: product.rating.rate)
         }
+        
         let labelProdNameHeight = labelProdName.optimalHeight
         let labelProdDescHeight = labelProdDesc.optimalHeight
         
