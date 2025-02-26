@@ -1,103 +1,71 @@
+//
+//  ShoppingListViewController.swift
+//  ShoppingApp
+//
+//  Created by Biene Bryle Sanico on 2/18/25.
+//
+
 import UIKit
 
 class ShoppingListViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UITableViewDataSourcePrefetching {
     
-    // MARK: - VARIABLES
+    // MARK: - Segue Outlets
+    @IBOutlet weak var productTable: UITableView!
+    
+    // MARK: - Variables
     private let fetchProdImage = GetProductImage()
-    var fakeStoreAPI = FakeStoreAPI()
-    var productLists = [ProductDetails]() {
+    private var productFetcher =  FetchProducts()
+    private var productLists = [ProductDetails]() {
         didSet {
             productTable.reloadData()
-            hideProgressView()
+            progressViewHandler.hideProgressView()
         }
     }
 
+    private var progressViewHandler: ProgressViewHandler!
 
-    var progressView: UIProgressView!
-    var refreshControl = UIRefreshControl()
-    
-    // MARK: - SEGUE
-    @IBOutlet weak var productTable: UITableView!
-
+    // MARK: - Initialization
     override func viewDidLoad() {
         super.viewDidLoad()
         
         productTable.dataSource = self
         productTable.delegate = self
-        productTable.prefetchDataSource = self // Prefetching
-     
-        setupProgressView()
-        setupRefreshControl()
+
+        progressViewHandler = ProgressViewHandler(on: productTable, navigationBar: navigationController?.navigationBar)
+        progressViewHandler.addRefreshAction(target: self, action: #selector(refresh))
+
         fetchProducts()
-    }
-
-    // MARK: - Progress View Setup
-    func setupProgressView() {
-        progressView = UIProgressView(progressViewStyle: .default)
-        progressView.translatesAutoresizingMaskIntoConstraints = false
-        progressView.progressTintColor = .blue
-        progressView.progress = 0.0
-
-        navigationController?.navigationBar.addSubview(progressView)
-
-        NSLayoutConstraint.activate([
-            progressView.leadingAnchor.constraint(equalTo: navigationController!.navigationBar.leadingAnchor),
-            progressView.trailingAnchor.constraint(equalTo: navigationController!.navigationBar.trailingAnchor),
-            progressView.bottomAnchor.constraint(equalTo: navigationController!.navigationBar.bottomAnchor),
-            progressView.heightAnchor.constraint(equalToConstant: 2)
-        ])
-    }
-
-    func showProgressView(with progress: Float = 0.1) {
-        progressView.isHidden = false
-        progressView.setProgress(progress, animated: true)
-    }
-
-    func hideProgressView() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-            self.progressView.isHidden = true
-            self.refreshControl.endRefreshing()
-        }
-    }
-
-    // MARK: - Refresh Control Setup
-    func setupRefreshControl() {
-        refreshControl.tintColor = .clear
-        refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
-        productTable.refreshControl = refreshControl
-    }
-
-    @objc func refresh() {
-        showProgressView(with: 0.1) // Reset progress
-        fetchProducts()
-        print("Pulled to refresh!")
     }
     
-    // MARK: - Fetching Products Asynchronously
+    
+    // MARK: - Functions
+    @objc func refresh() {
+        progressViewHandler.showProgressView(with: 0.1)
+        print("Pulled to Refresh!")
+        fetchProducts()
+    }
+
     func fetchProducts() {
-        showProgressView()
+        progressViewHandler.showProgressView()
         
-        DispatchQueue.global(qos: .background).async { [weak self] in
-            self?.fakeStoreAPI.fetchData { result in
+        productFetcher.fetchProducts { [weak self] result in
                 DispatchQueue.main.async {
                     switch result {
                     case .success(let products):
                         self?.productLists = products
-                        self?.progressView.setProgress(1.0, animated: true)
+                        self?.progressViewHandler.showProgressView(with: 1.0)
                     case .failure(let error):
                         print("Failed to fetch products: \(error.localizedDescription)")
-                        self?.hideProgressView()
+                        self?.progressViewHandler.hideProgressView()
                     }
                 }
             }
         }
-    }
 
-    // MARK: - TableView Functions
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return productLists.count
     }
-
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = productTable.dequeueReusableCell(withIdentifier: "ProductTableViewCell", for: indexPath) as! ProductTableViewCell
         let product = productLists[indexPath.row]
@@ -113,7 +81,7 @@ class ShoppingListViewController: UIViewController, UITableViewDataSource, UITab
         
         return cell
     }
-
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let selectedProduct = productLists[indexPath.row]
         
