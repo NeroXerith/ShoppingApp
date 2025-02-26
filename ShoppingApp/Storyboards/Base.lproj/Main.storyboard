@@ -227,6 +227,7 @@
                         <outlet property="labelProdPrice" destination="uIk-8a-uQJ" id="LKL-Mq-vVE"/>
                         <outlet property="labelProdRating" destination="apt-Pm-kTV" id="JF3-jQ-0KH"/>
                         <outlet property="labelRatingCount" destination="6kf-kH-jgY" id="r9t-XV-fUs"/>
+                        <outlet property="scrollView" destination="Mt9-7n-aIa" id="rVr-7n-EfV"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dom-7e-hg4" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

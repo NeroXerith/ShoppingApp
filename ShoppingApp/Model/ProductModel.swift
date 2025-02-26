@@ -1,3 +1,10 @@
+//
+//  ProductModel.swift
+//  ShoppingApp
+//
+//  Created by Biene Bryle Sanico on 2/18/25.
+//
+
 import Foundation
 
 struct ProductDetails: Codable {
