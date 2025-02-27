@@ -12,6 +12,7 @@ class ShoppingListViewController: UIViewController, UITableViewDataSource, UITab
     // MARK: - Segue Outlets
     @IBOutlet weak var productTable: UITableView!
     
+    
     // MARK: - Variables
     private let fetchProdImage = GetProductImage()
     private var productFetcher =  FetchProducts()
@@ -39,6 +40,13 @@ class ShoppingListViewController: UIViewController, UITableViewDataSource, UITab
     
     
     // MARK: - Functions
+    
+    @IBAction func gotoShoppingCartAction(_ sender: UIButton) {
+        if let shoppingCartVC = storyboard?.instantiateViewController(withIdentifier: "ShoppingCartViewController") as? ShoppingCartViewController {
+            navigationController?.pushViewController(shoppingCartVC, animated: true)
+        }
+    }
+    
     @objc func refresh() {
         progressViewHandler.showProgressView(with: 0.1)
         print("Pulled to Refresh!")

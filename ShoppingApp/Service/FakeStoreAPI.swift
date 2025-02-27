@@ -26,7 +26,7 @@ class FakeStoreAPI {
                 return
             }
             
-            print("Response statuse code: \(response.statusCode)" )
+            print("Response status code: \(response.statusCode)" )
             
             do {
                 let products = try JSONDecoder().decode([ProductDetails].self, from: data)

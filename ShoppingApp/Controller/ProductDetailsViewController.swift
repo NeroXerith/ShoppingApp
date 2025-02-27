@@ -29,6 +29,20 @@ class ProductDetailsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // UILabel Programitacally
+        labelRatingCount.layer.masksToBounds = true
+        labelRatingCount.layer.cornerRadius = 5
+
+        // Multiline Extension
+        let labelProdNameHeight = labelProdName.optimalHeight
+        let labelProdDescHeight = labelProdDesc.optimalHeight
+                
+                labelProdName.frame = CGRect(x: labelProdName.frame.origin.x, y: labelProdName.frame.origin.y, width: labelProdName.frame.width, height: labelProdNameHeight)
+                labelProdName.numberOfLines = 0
+                
+                labelProdDesc.frame = CGRect(x: labelProdDesc.frame.origin.x, y: labelProdDesc.frame.origin.y, width: labelProdDesc.frame.width, height: labelProdDescHeight)
+                labelProdDesc.numberOfLines = 0
+
         // Progress bar for api fetching completion
         progressViewHandler = ProgressViewHandler(on: scrollView, navigationBar: navigationController?.navigationBar)
         progressViewHandler.addRefreshAction(target: self, action: #selector(refresh))
