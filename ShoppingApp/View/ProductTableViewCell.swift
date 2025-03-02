@@ -14,11 +14,7 @@ class ProductTableViewCell: UITableViewCell {
     @IBOutlet weak var prodPriceLabel: UILabel!
     @IBOutlet weak var prodCategory: UILabel!
     
-    static let identifier = "ProductTableViewCell"
-    
-    static func nib() -> UINib {
-        return UINib(nibName: "ProductTableViewCell", bundle: nil)
-    }
+
 
     override func awakeFromNib() {
         super.awakeFromNib()

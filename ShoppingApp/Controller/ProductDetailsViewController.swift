@@ -59,7 +59,7 @@ class ProductDetailsViewController: UIViewController {
     
     func loadProductDetails() {
         guard let product = selectedProduct else { return }
-        
+
         labelProdName.text = product.title
         labelProdDesc.text = product.description
         labelProdPrice.text = "$\(String(product.price))"
@@ -75,4 +75,17 @@ class ProductDetailsViewController: UIViewController {
         
         progressViewHandler.hideProgressView()
     }
+    
+    @IBAction func prdouctAddToCart(_ sender: Any) {
+        guard let product = selectedProduct else { return }
+        
+        CartManager.shared.addToCart(product)
+        
+        let alert = UIAlertController(title: "Added to Cart", message: "\(product.title) has been added to your cart!", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "OK", style: .default))
+                
+                present(alert, animated: true)
+        
+    }
+    
 }
