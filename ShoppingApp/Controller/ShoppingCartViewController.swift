@@ -12,7 +12,7 @@ class ShoppingCartViewController: UIViewController, UITableViewDelegate, UITable
     @IBOutlet weak var emptyCartLabel: UILabel!
     @IBOutlet weak var cartTableView: UITableView!
     
-    private var cartProducts: [ProductDetails] = []
+    private var cartProducts: [CartModel] = []
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -42,7 +42,7 @@ class ShoppingCartViewController: UIViewController, UITableViewDelegate, UITable
     
     // MARK: - Update Total Price
     private func updateTotalPrice() {
-        let total = cartProducts.reduce(0) { $0 + $1.price }
+        let total = cartProducts.reduce(0) { $0 + ($1.product.price * Double($1.quantity)) }
 //        totalLabel.text = "Total: $\(String(format: "%.2f", total))"
     }
     
@@ -53,10 +53,13 @@ class ShoppingCartViewController: UIViewController, UITableViewDelegate, UITable
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = cartTableView.dequeueReusableCell(withIdentifier: "CartTableViewCell", for: indexPath) as! CartTableViewCell
         
-        let product = cartProducts[indexPath.row]
+        let cartItem = cartProducts[indexPath.row]
+        let product = cartItem.product
         cell.prodNameLabel.text = product.title
         cell.prodCategoryLabel.text = product.category
         cell.prodPriceLabel.text = "$\(String(product.price))"
+        cell.prodQtyLabel.text = "\(cartItem.quantity)"
+        
         
         // Fetch product image asynchronously
         GetProductImage().fetchImage(from: product.image) { image in
@@ -64,13 +67,21 @@ class ShoppingCartViewController: UIViewController, UITableViewDelegate, UITable
                 cell.prodImageHolder.image = image
             }
         }
-
+        
+        cell.updateQuantityHandler = { increase in
+                    if increase {
+                        CartManager.shared.increaseQuantity(product.id)
+                    } else {
+                        CartManager.shared.decreaseQuantity(product.id)
+                    }
+                    self.loadCartItems()
+                }
         return cell
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            let product = cartProducts[indexPath.row]
+            let product = cartProducts[indexPath.row].product
             CartManager.shared.removeFromCart(product.id)
             loadCartItems()
         }
