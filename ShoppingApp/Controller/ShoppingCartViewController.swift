@@ -40,6 +40,12 @@ class ShoppingCartViewController: UIViewController, UITableViewDelegate, UITable
         emptyCartLabel.isHidden = !cartProducts.isEmpty
     }
     
+    // MARK: - Update Total Price
+    private func updateTotalPrice() {
+        let total = cartProducts.reduce(0) { $0 + $1.price }
+//        totalLabel.text = "Total: $\(String(format: "%.2f", total))"
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return cartProducts.count
     }
