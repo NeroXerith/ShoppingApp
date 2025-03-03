@@ -434,24 +434,9 @@
                             </view>
                             <view clipsSubviews="YES" alpha="0.55000000000000004" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Snd-Se-Rgx" userLabel="BottomBar">
                                 <rect key="frame" x="0.0" y="690" width="402" height="150"/>
-                                <subviews>
-                                    <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FHO-cg-HTD">
-                                        <rect key="frame" x="0.0" y="5" width="402" height="166"/>
-                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                        <userDefinedRuntimeAttributes>
-                                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                                <integer key="value" value="23"/>
-                                            </userDefinedRuntimeAttribute>
-                                        </userDefinedRuntimeAttributes>
-                                    </view>
-                                </subviews>
                                 <color key="backgroundColor" systemColor="secondaryLabelColor"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="150" id="0vC-Tt-9zw"/>
-                                    <constraint firstAttribute="bottom" secondItem="FHO-cg-HTD" secondAttribute="bottom" constant="-21" id="5kp-Rg-jb7"/>
-                                    <constraint firstItem="FHO-cg-HTD" firstAttribute="leading" secondItem="Snd-Se-Rgx" secondAttribute="leading" id="GU8-K3-UKA"/>
-                                    <constraint firstAttribute="trailing" secondItem="FHO-cg-HTD" secondAttribute="trailing" id="Wuf-N7-5Ha"/>
-                                    <constraint firstItem="FHO-cg-HTD" firstAttribute="top" secondItem="Snd-Se-Rgx" secondAttribute="top" constant="5" id="nwr-qA-EaU"/>
                                 </constraints>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
@@ -459,15 +444,27 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </view>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rVS-FY-CZy" userLabel="BottomBarView">
+                                <rect key="frame" x="0.0" y="698" width="402" height="176"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <connections>
+                                    <segue destination="Z4z-wg-qkb" kind="embed" id="pre-ma-sR3"/>
+                                </connections>
+                            </containerView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Dul-2V-SKh"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="rVS-FY-CZy" firstAttribute="top" secondItem="wd6-ap-yHT" secondAttribute="bottom" constant="8" symbolic="YES" id="5hn-Vs-Ghe"/>
+                            <constraint firstItem="rVS-FY-CZy" firstAttribute="leading" secondItem="hWl-FN-Lf6" secondAttribute="leading" id="Bgp-Da-Tih"/>
+                            <constraint firstItem="rVS-FY-CZy" firstAttribute="trailing" secondItem="hWl-FN-Lf6" secondAttribute="trailing" id="Cpu-d9-eMm"/>
                             <constraint firstItem="Snd-Se-Rgx" firstAttribute="bottom" secondItem="Dul-2V-SKh" secondAttribute="bottom" id="VCa-TM-Wag"/>
                             <constraint firstItem="Dul-2V-SKh" firstAttribute="trailing" secondItem="wd6-ap-yHT" secondAttribute="trailing" id="fHC-oP-X2J"/>
                             <constraint firstItem="wd6-ap-yHT" firstAttribute="leading" secondItem="Dul-2V-SKh" secondAttribute="leading" id="fa3-7o-QPj"/>
                             <constraint firstItem="wd6-ap-yHT" firstAttribute="top" secondItem="Dul-2V-SKh" secondAttribute="top" id="gCE-3i-zH6"/>
                             <constraint firstItem="Snd-Se-Rgx" firstAttribute="top" secondItem="wd6-ap-yHT" secondAttribute="bottom" id="gOJ-wp-QdC"/>
+                            <constraint firstAttribute="bottom" secondItem="rVS-FY-CZy" secondAttribute="bottom" id="kmG-j1-Tqt"/>
                             <constraint firstItem="Snd-Se-Rgx" firstAttribute="leading" secondItem="hWl-FN-Lf6" secondAttribute="leading" id="syV-az-veB"/>
                             <constraint firstAttribute="trailing" secondItem="Snd-Se-Rgx" secondAttribute="trailing" id="yji-Sk-2V2"/>
                         </constraints>
@@ -479,7 +476,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wCB-vb-8iz" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3008.6956521739135" y="-2.6785714285714284"/>
+            <point key="canvasLocation" x="3007.4626865671639" y="-2.7459954233409607"/>
         </scene>
         <!--Shopping List Nav-->
         <scene sceneID="erj-cb-zsB">
@@ -498,6 +495,82 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="d9f-6C-Lep" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="139.69465648854961" y="3.5211267605633805"/>
+        </scene>
+        <!--Bottom Bar View-->
+        <scene sceneID="Ye3-to-ljh">
+            <objects>
+                <viewController title="Bottom Bar View" id="Z4z-wg-qkb" sceneMemberID="viewController">
+                    <view key="view" clipsSubviews="YES" contentMode="scaleToFill" id="83o-Dz-lki">
+                        <rect key="frame" x="0.0" y="0.0" width="402" height="176"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gcW-iF-0Gs">
+                                <rect key="frame" x="25" y="107" width="352" height="35"/>
+                                <color key="backgroundColor" systemColor="systemPurpleColor"/>
+                                <color key="tintColor" systemColor="systemPurpleColor"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="filled" title="Checkout">
+                                    <color key="baseBackgroundColor" red="0.75686275960000005" green="0.27843138579999999" blue="0.45098042490000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                </buttonConfiguration>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                        <integer key="value" value="15"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Total" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9TQ-Wt-zZA">
+                                <rect key="frame" x="16" y="66" width="37" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" systemColor="secondaryLabelColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Subtotal" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uGG-Df-JUW">
+                                <rect key="frame" x="16" y="34" width="64" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" systemColor="secondaryLabelColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="$999.99" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NOR-GH-oIz">
+                                <rect key="frame" x="316" y="66" width="68" height="21"/>
+                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="$999.99" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hrY-lA-gi3">
+                                <rect key="frame" x="316" y="33" width="68" height="21"/>
+                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="tertiarySystemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="NOR-GH-oIz" firstAttribute="top" secondItem="hrY-lA-gi3" secondAttribute="bottom" constant="12" id="7dg-l7-eXP"/>
+                            <constraint firstItem="gcW-iF-0Gs" firstAttribute="top" secondItem="9TQ-Wt-zZA" secondAttribute="bottom" constant="20" id="CHG-FA-4hs"/>
+                            <constraint firstItem="hrY-lA-gi3" firstAttribute="top" secondItem="83o-Dz-lki" secondAttribute="top" constant="33" id="JoP-hV-VEK"/>
+                            <constraint firstAttribute="trailing" secondItem="hrY-lA-gi3" secondAttribute="trailing" constant="18" id="Prg-LY-P58"/>
+                            <constraint firstItem="uGG-Df-JUW" firstAttribute="top" secondItem="83o-Dz-lki" secondAttribute="top" constant="34" id="SyM-cx-ZIy"/>
+                            <constraint firstItem="hrY-lA-gi3" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="uGG-Df-JUW" secondAttribute="trailing" id="TdQ-b7-mML"/>
+                            <constraint firstItem="uGG-Df-JUW" firstAttribute="leading" secondItem="83o-Dz-lki" secondAttribute="leading" constant="16" id="Xp1-UL-NQ7"/>
+                            <constraint firstAttribute="bottom" secondItem="gcW-iF-0Gs" secondAttribute="bottom" constant="34" id="cFN-ka-q94"/>
+                            <constraint firstAttribute="trailing" secondItem="NOR-GH-oIz" secondAttribute="trailing" constant="18" id="cPZ-hK-SYm"/>
+                            <constraint firstItem="9TQ-Wt-zZA" firstAttribute="top" secondItem="uGG-Df-JUW" secondAttribute="bottom" constant="11" id="exQ-by-2vz"/>
+                            <constraint firstItem="NOR-GH-oIz" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="9TQ-Wt-zZA" secondAttribute="trailing" constant="8" symbolic="YES" id="idh-Gw-J9D"/>
+                            <constraint firstAttribute="trailing" secondItem="gcW-iF-0Gs" secondAttribute="trailing" constant="25" id="qmJ-U8-dVD"/>
+                            <constraint firstItem="gcW-iF-0Gs" firstAttribute="leading" secondItem="83o-Dz-lki" secondAttribute="leading" constant="25" id="v4a-G9-VJD"/>
+                            <constraint firstItem="9TQ-Wt-zZA" firstAttribute="leading" secondItem="83o-Dz-lki" secondAttribute="leading" constant="16" id="w72-KT-Tj6"/>
+                            <constraint firstItem="gcW-iF-0Gs" firstAttribute="top" secondItem="NOR-GH-oIz" secondAttribute="bottom" constant="20" id="xu0-vd-X85"/>
+                        </constraints>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                <integer key="value" value="23"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="eVQ-W9-Irv" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3009" y="477"/>
         </scene>
     </scenes>
     <resources>
@@ -521,8 +594,14 @@
         <systemColor name="systemPinkColor">
             <color red="1" green="0.1764705882" blue="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
+        <systemColor name="systemPurpleColor">
+            <color red="0.68627450980000004" green="0.32156862749999998" blue="0.87058823529999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
         <systemColor name="tableCellBlueTextColor">
             <color red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="tertiarySystemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
     </resources>
 </document>
