@@ -11,6 +11,11 @@ class ShoppingCartViewController: UIViewController, UITableViewDelegate, UITable
 
     @IBOutlet weak var emptyCartLabel: UILabel!
     @IBOutlet weak var cartTableView: UITableView!
+    @IBOutlet weak var subtotalCountLabel: UILabel!
+    @IBOutlet weak var totalCountLabel: UILabel!
+    @IBOutlet weak var voucherTextfield: UITextField!
+    @IBOutlet weak var invalidCodeLabel: UILabel!
+    
     
     private var cartProducts: [CartModel] = []
     override func viewDidLoad() {
@@ -35,17 +40,43 @@ class ShoppingCartViewController: UIViewController, UITableViewDelegate, UITable
     private func loadCartItems() {
         cartProducts = CartManager.shared.getCartItems()
         cartTableView.reloadData()
-
+        subtotalCountLabel.text = "$0.00"
+        updateTotalPrice()
         // Show or hide empty cart message
         emptyCartLabel.isHidden = !cartProducts.isEmpty
+        
     }
     
     // MARK: - Update Total Price
     private func updateTotalPrice() {
-        let total = cartProducts.reduce(0) { $0 + ($1.product.price * Double($1.quantity)) }
-//        totalLabel.text = "Total: $\(String(format: "%.2f", total))"
+        let subTotal = cartProducts.reduce(0) { $0 + ($1.product.price * Double($1.quantity)) }
+        subtotalCountLabel.text = "$\(String(format: "%.2f", subTotal))"
+        
+        if let voucherCode = voucherTextfield.text, !voucherCode.isEmpty {
+            applyDiscount(voucherCode: voucherCode, subTotal: subTotal)
+        } else {
+            totalCountLabel.text = subtotalCountLabel.text
+        }
     }
     
+    // MARK: - Apply Discount
+    private func applyDiscount(voucherCode: String, subTotal: Double){
+        var discountedTotal: Double = subTotal
+       
+        if voucherCode == "STRAT50%OFF" {
+            invalidCodeLabel.isHidden = true
+            discountedTotal = subTotal * 0.5
+        } else if voucherCode == "STRAT25%OFF" {
+            invalidCodeLabel.isHidden = true
+            discountedTotal = subTotal * 0.75
+        } else {
+            invalidCodeLabel.isHidden = false
+            voucherTextfield.text = ""
+        }
+        
+        totalCountLabel.text = "$\(String(format: "%.2f", discountedTotal))"
+        
+    }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return cartProducts.count
     }
@@ -88,4 +119,15 @@ class ShoppingCartViewController: UIViewController, UITableViewDelegate, UITable
     }
     
     
+    @IBAction func applyVoucherButton(_ sender: Any) {
+        guard !cartProducts.isEmpty else {
+            return
+        }
+        guard let voucherCode = voucherTextfield.text, !voucherCode.isEmpty else {
+            return
+        }
+        
+        let subTotal = cartProducts.reduce(0) { $0 + ($1.product.price * Double($1.quantity))}
+        applyDiscount(voucherCode: voucherCode, subTotal: subTotal)
+    }
 }
