@@ -92,16 +92,17 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Shopping List" id="2dd-ed-sW6">
-                        <barButtonItem key="rightBarButtonItem" id="MNR-pX-nlL">
+                        <barButtonItem key="rightBarButtonItem" title="ShoppingCart" image="cart.fill" catalog="system" id="MNR-pX-nlL">
                             <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="VFp-Qc-OLY">
                                 <rect key="frame" x="307" y="4.6666666666666679" width="87" height="35"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" image="cart.fill" catalog="system"/>
                                 <connections>
                                     <action selector="gotoShoppingCartAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="0d3-WS-xKW"/>
                                 </connections>
                             </button>
+                            <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
@@ -584,6 +585,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="cart.fill" catalog="system" width="128" height="102"/>
         <image name="minusBtn" width="150" height="150"/>
         <image name="plusBtn" width="150" height="150"/>
         <systemColor name="darkTextColor">
