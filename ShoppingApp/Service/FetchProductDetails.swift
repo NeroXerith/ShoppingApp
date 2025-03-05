@@ -8,9 +8,20 @@ import Foundation
 import Alamofire
 
 enum FetchError: Error {
-    case networkError(String)
-    case parsingError(String)
+    case networkError
+    case parsingError
     case unknownError
+    
+    var localizedDescription: String {
+        switch self {
+        case .networkError:
+            return "Network error occurred. Please check your connection."
+        case .parsingError:
+            return "Failed to parse data from the server."
+        case .unknownError:
+            return "An unknown error occurred."
+        }
+    }
 }
 
 class FetchProducts {
@@ -24,8 +35,8 @@ class FetchProducts {
                 switch response.result {
                         case .success(let products):
                             completion(.success(products))
-                        case .failure(let error):
-                            completion(.failure(.networkError(error.localizedDescription)))
+                        case .failure:
+                            completion(.failure(.networkError))
             }
         }
     }
