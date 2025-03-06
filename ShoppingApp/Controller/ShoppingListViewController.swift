@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 class ShoppingListViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UITableViewDataSourcePrefetching {
     

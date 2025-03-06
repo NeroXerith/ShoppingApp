@@ -1,5 +1,5 @@
 //
-//  CartModel.swift
+//  CartManager.swift
 //  ShoppingApp
 //
 //  Created by Biene Bryle Sanico on 3/2/25.
