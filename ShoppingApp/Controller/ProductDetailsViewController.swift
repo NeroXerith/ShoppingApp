@@ -10,69 +10,76 @@ class ProductDetailsViewController: UIViewController {
     
     // MARK: - Segue Outlets
     @IBOutlet weak var imageProduct: UIImageView!
-    @IBOutlet weak var labelProdName: UILabel!
-    @IBOutlet weak var labelProdDesc: UILabel!
-    @IBOutlet weak var labelProdPrice: UILabel!
-    @IBOutlet weak var labelProdCategory: UILabel!
-    @IBOutlet weak var labelProdRating: UILabel!
-    @IBOutlet weak var labelRatingCount: UILabel!
+    @IBOutlet weak var productNameLabel: UILabel!
+    @IBOutlet weak var productDescriptionLabel: UILabel!
+    @IBOutlet weak var productPriceLabel: UILabel!
+    @IBOutlet weak var productCategoryLabel: UILabel!
+    @IBOutlet weak var productRatingLabel: UILabel!
+    @IBOutlet weak var ratingCountLabel: UILabel!
     @IBOutlet weak var averageStarView: AverageStarView!
     @IBOutlet weak var scrollView: UIScrollView!
     
     
     // MARK: - Variables
-    var selectedProduct: ProductDetails?
+    var selectedProduct: ProductDetails? // Global variable that holds the product details passed from Shopping list view
     private var progressViewHandler: ProgressViewHandler!
     
     // MARK: - Initialization
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        setupUI()
+        loadProductDetails()
+    }
+    
+    // MARK: - Functions
+    // Configure the UI for this view
+    func setupUI(){
         // UILabel Programitacally
-        labelRatingCount.layer.masksToBounds = true
-        labelRatingCount.layer.cornerRadius = 5
+        ratingCountLabel.layer.masksToBounds = true
+        ratingCountLabel.layer.cornerRadius = 5
 
         // Multiline Extension
-        let labelProdNameHeight = labelProdName.optimalHeight
-        let labelProdDescHeight = labelProdDesc.optimalHeight
+        let labelProductNameHeight = productNameLabel.optimalHeight
+        let labelProductDescriptionHeight = productDescriptionLabel.optimalHeight
                 
-                labelProdName.frame = CGRect(x: labelProdName.frame.origin.x, y: labelProdName.frame.origin.y, width: labelProdName.frame.width, height: labelProdNameHeight)
-                labelProdName.numberOfLines = 0
+                productNameLabel.frame = CGRect(x: productNameLabel.frame.origin.x, y: productNameLabel.frame.origin.y, width: productNameLabel.frame.width, height: labelProductNameHeight)
+                productNameLabel.numberOfLines = 0
                 
-                labelProdDesc.frame = CGRect(x: labelProdDesc.frame.origin.x, y: labelProdDesc.frame.origin.y, width: labelProdDesc.frame.width, height: labelProdDescHeight)
-                labelProdDesc.numberOfLines = 0
+                productDescriptionLabel.frame = CGRect(x: productDescriptionLabel.frame.origin.x, y: productDescriptionLabel.frame.origin.y, width: productDescriptionLabel.frame.width, height: labelProductDescriptionHeight)
+                productDescriptionLabel.numberOfLines = 0
 
         // Progress bar for api fetching completion
         progressViewHandler = ProgressViewHandler(on: scrollView, navigationBar: navigationController?.navigationBar)
         progressViewHandler.addRefreshAction(target: self, action: #selector(refresh))
 
-        loadProductDetails()
     }
     
-    // MARK: - Functions
+    // Refreshes the product lists when user pulls the screen to refresh
     @objc func refresh() {
         progressViewHandler.showProgressView(with: 0.1)
         print("Pulled to Refresh!")
         loadProductDetails()
     }
     
+    // Function to display the details of the product that came from the previous view
     func loadProductDetails() {
         guard let product = selectedProduct else { return }
 
-        labelProdName.text = product.title
-        labelProdDesc.text = product.description
-        labelProdPrice.text = "$\(String(product.price))"
+        productNameLabel.text = product.title
+        productDescriptionLabel.text = product.description
+        productPriceLabel.text = "$\(String(product.price))"
         
         ProductImageManager.loadImage(into: imageProduct, from: product.image)
         
-        labelProdCategory.text = product.category
-        labelProdRating.text = String(product.rating.rate)
-        labelRatingCount.text = " \(String(product.rating.count)) reviews \u{200c}"
+        productCategoryLabel.text = product.category
+        productRatingLabel.text = String(product.rating.rate)
+        ratingCountLabel.text = " \(String(product.rating.count)) reviews \u{200c}"
         averageStarView.updateStarRating(rating: product.rating.rate)
         
         progressViewHandler.hideProgressView()
     }
     
+    // MARK: - Functions for Button Actions
     @IBAction func prdouctAddToCart(_ sender: Any) {
         guard let product = selectedProduct else { return }
         

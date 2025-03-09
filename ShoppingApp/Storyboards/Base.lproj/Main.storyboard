@@ -260,12 +260,12 @@
                     <connections>
                         <outlet property="averageStarView" destination="s9n-YW-Kaq" id="Jpj-R0-i8w"/>
                         <outlet property="imageProduct" destination="38S-jg-elQ" id="HcN-hy-YfQ"/>
-                        <outlet property="labelProdCategory" destination="xQn-kP-EQP" id="XSr-k8-vfm"/>
-                        <outlet property="labelProdDesc" destination="C5i-zP-2jZ" id="diw-uw-erF"/>
-                        <outlet property="labelProdName" destination="0Vt-Xe-jhx" id="Fhh-Dw-M7p"/>
-                        <outlet property="labelProdPrice" destination="uIk-8a-uQJ" id="LKL-Mq-vVE"/>
-                        <outlet property="labelProdRating" destination="apt-Pm-kTV" id="JF3-jQ-0KH"/>
-                        <outlet property="labelRatingCount" destination="6kf-kH-jgY" id="r9t-XV-fUs"/>
+                        <outlet property="productCategoryLabel" destination="xQn-kP-EQP" id="XSr-k8-vfm"/>
+                        <outlet property="productDescriptionLabel" destination="C5i-zP-2jZ" id="diw-uw-erF"/>
+                        <outlet property="productNameLabel" destination="0Vt-Xe-jhx" id="Fhh-Dw-M7p"/>
+                        <outlet property="productPriceLabel" destination="uIk-8a-uQJ" id="LKL-Mq-vVE"/>
+                        <outlet property="productRatingLabel" destination="apt-Pm-kTV" id="JF3-jQ-0KH"/>
+                        <outlet property="ratingCountLabel" destination="6kf-kH-jgY" id="r9t-XV-fUs"/>
                         <outlet property="scrollView" destination="Mt9-7n-aIa" id="rVr-7n-EfV"/>
                     </connections>
                 </viewController>

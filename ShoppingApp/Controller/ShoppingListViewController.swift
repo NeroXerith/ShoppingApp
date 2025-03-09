@@ -15,52 +15,56 @@ class ShoppingListViewController: UIViewController, UITableViewDataSource, UITab
     
     
     // MARK: - Variables
-    private var productFetcher =  FetchProducts()
-    private var productLists = [ProductDetails]() {
+    private var productFetcher =  FetchProducts() // Handles API alls to fetch product data
+    private var productLists = [ProductDetails](){
         didSet {
             productTable.reloadData()
             progressViewHandler.hideProgressView()
         }
-    }
-
-    private var progressViewHandler: ProgressViewHandler!
+    } // Holds/Stores all the fetched products
+    private var progressViewHandler: ProgressViewHandler! // Handles the loading indicator
 
     // MARK: - Initialization
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        productTable.dataSource = self
-        productTable.delegate = self
-
-        progressViewHandler = ProgressViewHandler(on: productTable, navigationBar: navigationController?.navigationBar)
-        progressViewHandler.addRefreshAction(target: self, action: #selector(refresh))
-
+        setupUI()
         fetchProducts()
     }
     
     
     // MARK: - Functions
+    // Setup the UI for this view
+    func setupUI(){
+        productTable.dataSource = self
+        productTable.delegate = self
+        
+        progressViewHandler = ProgressViewHandler(on: productTable, navigationBar: navigationController?.navigationBar)
+        progressViewHandler.addRefreshAction(target: self, action: #selector(refresh))
+    }
     
+    // Function to Navigate to the Cart view
     @IBAction func gotoShoppingCartAction(_ sender: UIButton) {
         if let shoppingCartVC = storyboard?.instantiateViewController(withIdentifier: "ShoppingCartViewController") as? ShoppingCartViewController {
             navigationController?.pushViewController(shoppingCartVC, animated: true)
         }
     }
     
+    // Refreshes the product lists when user pulls the screen to refresh
     @objc func refresh() {
         progressViewHandler.showProgressView(with: 0.1)
         print("Pulled to Refresh!")
         fetchProducts()
     }
-
+    
+    // Function to fetch data and Update the productTable View
     func fetchProducts() {
         progressViewHandler.showProgressView()
-        
         productFetcher.fetchProducts { [weak self] result in
                 DispatchQueue.main.async {
                     switch result {
                     case .success(let products):
                         self?.productLists = products
+                        self?.productTable.reloadData() // Refreshes the table
                         self?.progressViewHandler.showProgressView(with: 1.0)
                     case .failure(let error):
                         print("Failed to fetch products: \(error.localizedDescription)")
@@ -69,11 +73,15 @@ class ShoppingListViewController: UIViewController, UITableViewDataSource, UITab
                 }
             }
         }
-
+    
+    // MARK: - TableView Delagates and DataSource
+    
+    // Determine the rows of the table view
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return productLists.count
     }
     
+    // Configure the UI for a specific cell
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = productTable.dequeueReusableCell(withIdentifier: "ProductTableViewCell", for: indexPath) as! ProductTableViewCell
         let product = productLists[indexPath.row]
@@ -88,6 +96,7 @@ class ShoppingListViewController: UIViewController, UITableViewDataSource, UITab
         return cell
     }
     
+    // Navigates to the product detials screen when a row/cellr is selected
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let selectedProduct = productLists[indexPath.row]
         

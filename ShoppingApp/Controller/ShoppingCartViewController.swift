@@ -18,25 +18,28 @@ class ShoppingCartViewController: UIViewController, UITableViewDelegate, UITable
     
     
     private var cartProducts: [CartModel] = []
+    
+    // MARK: - Views Lifecycle
+    // Firs load Initialization
     override func viewDidLoad() {
         super.viewDidLoad()
-
         setupCartTableView()
         loadCartItems()
     }
-    
+    // Reloads every time there is a changes
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         loadCartItems()  // Reload cart every time this view appears
     }
     
-    // MARK: - Setup TableView
+    // MARK: - Functions
+    // Setup TableView
     private func setupCartTableView() {
         cartTableView.delegate = self
         cartTableView.dataSource = self
     }
     
-    // MARK: - Load Cart Items
+    // Load Cart Items
     private func loadCartItems() {
         cartProducts = CartManager.shared.getCartItems()
         cartTableView.reloadData()
@@ -47,7 +50,7 @@ class ShoppingCartViewController: UIViewController, UITableViewDelegate, UITable
         
     }
     
-    // MARK: - Update Total Price
+    // Handles the total price
     private func updateTotalPrice() {
         let subTotal = cartProducts.reduce(0) { $0 + ($1.product.price * Double($1.quantity)) }
         subtotalCountLabel.text = "$\(String(format: "%.2f", subTotal))"
@@ -59,7 +62,7 @@ class ShoppingCartViewController: UIViewController, UITableViewDelegate, UITable
         }
     }
     
-    // MARK: - Apply Discount
+    // Handles the discount feature
     private func applyDiscount(voucherCode: String, subTotal: Double){
         var discountedTotal: Double = subTotal
        
@@ -77,6 +80,8 @@ class ShoppingCartViewController: UIViewController, UITableViewDelegate, UITable
         totalCountLabel.text = "$\(String(format: "%.2f", discountedTotal))"
         
     }
+    
+    // MARK: - TableView Delegates and Datasource
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return cartProducts.count
     }
@@ -112,7 +117,7 @@ class ShoppingCartViewController: UIViewController, UITableViewDelegate, UITable
         }
     }
     
-    
+    // MARK: - Functions for Button Actions
     @IBAction func applyVoucherButton(_ sender: Any) {
         guard !cartProducts.isEmpty else {
             return
