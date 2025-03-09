@@ -9,7 +9,7 @@ import UIKit
 import Kingfisher
 import Combine
 
-class ShoppingListViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate {
+class ShoppingListViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     // MARK: - Segue Outlets
     @IBOutlet weak var productTable: UITableView!
