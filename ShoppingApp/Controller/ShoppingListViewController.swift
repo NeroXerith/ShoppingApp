@@ -23,7 +23,6 @@ class ShoppingListViewController: UIViewController, UITableViewDataSource, UITab
         }
     } // Holds/Stores all the fetched products
     
-    private var filteredProducts = [ProductDetails]()
     private var progressViewHandler: ProgressViewHandler! // Handles the loading indicator
     private var searchBarController = SearchBarController()
     private var cancellables = Set<AnyCancellable>()
@@ -52,8 +51,9 @@ class ShoppingListViewController: UIViewController, UITableViewDataSource, UITab
         progressViewHandler.addRefreshAction(target: self, action: #selector(refresh))
     }
     
+    // SearchBar Subscriber Function
     func setupSearchBarObserver(){
-        searchBarController.$filteredProducts
+        searchBarController.$filteredProducts // Access to the Publisher
             .sink { [weak self] results in
                 self?.productLists = results
             }

@@ -13,10 +13,9 @@
         
         // MARK: - Properties
         let searchController: UISearchController
-        @Published private(set) var filteredProducts: [ProductDetails] = []
+        @Published private(set) var filteredProducts: [ProductDetails] = [] // Publisher
         
         private var allProducts: [ProductDetails] = []
-        
         private var cancellables = Set<AnyCancellable>()
         
         // MARK: - Initialization
@@ -31,10 +30,12 @@
             searchController.searchBar.placeholder = "Search products..."
         }
         
+        // Stores the Initial Product list
         func setProducts(_ products: [ProductDetails]) {
-            self.allProducts = products
+            self.allProducts = products // When search bar text is empty to return the initial list
             self.filteredProducts = products
         }
+        
         // MARK: - Search Update Handling
         func updateSearchResults(for searchController: UISearchController) {
             guard let searchText = searchController.searchBar.text else {
