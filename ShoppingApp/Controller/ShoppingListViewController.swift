@@ -76,7 +76,6 @@ class ShoppingListViewController: UIViewController, UITableViewDataSource, UITab
                     case .success(let products):
                         self?.searchBarController.setProducts(products)
                         self?.productLists = products
-                        self?.productTable.reloadData() // Refreshes the table
                         self?.progressViewHandler.showProgressView(with: 1.0)
                     case .failure(let error):
                         print("Failed to fetch products: \(error.localizedDescription)")
