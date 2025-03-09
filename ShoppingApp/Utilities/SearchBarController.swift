@@ -1,31 +1,49 @@
-//
-//  SearchBarController.swift
-//  ShoppingApp
-//
-//  Created by Biene Bryle Sanico on 3/9/25.
-//
+    //
+    //  SearchBarController.swift
+    //  ShoppingApp
+    //
+    //  Created by Biene Bryle Sanico on 3/9/25.
+    //
 
-import Foundation
-import Combine
-import UIKit
+    import Foundation
+    import Combine
+    import UIKit
 
-class SearchBarController: NSObject, UISearchBarDelegate {
-    @Published var searchText: String = ""
-    private var cancellables = Set<AnyCancellable>()
-    
-    override init() {
-        super.init()
+    class SearchBarController: NSObject, UISearchResultsUpdating {
+        
+        // MARK: - Properties
+        let searchController: UISearchController
+        @Published private(set) var filteredProducts: [ProductDetails] = []
+        
+        private var allProducts: [ProductDetails] = []
+        
+        private var cancellables = Set<AnyCancellable>()
+        
+        // MARK: - Initialization
+        override init() {
+            searchController = UISearchController(searchResultsController: nil)
+            super.init()
+            
+            searchController.searchResultsUpdater = self
+            searchController.obscuresBackgroundDuringPresentation = false
+            searchController.hidesNavigationBarDuringPresentation = false
+            searchController.searchBar.showsCancelButton = false
+            searchController.searchBar.placeholder = "Search products..."
+        }
+        
+        func setProducts(_ products: [ProductDetails]) {
+            self.allProducts = products
+            self.filteredProducts = products
+        }
+        // MARK: - Search Update Handling
+        func updateSearchResults(for searchController: UISearchController) {
+            guard let searchText = searchController.searchBar.text else {
+                return
+            }
+            if searchText.isEmpty {
+                filteredProducts = allProducts
+            } else {
+                filteredProducts = allProducts.filter {$0.title.localizedCaseInsensitiveContains(searchText)}
+            }
+        }
     }
-    
-    func configSearchBar(for navigationItem: UINavigationItem) -> UISearchBar {
-        let searchBar = UISearchBar()
-        searchBar.placeholder = "Search products..."
-        searchBar.delegate = self
-        navigationItem.titleView = searchBar
-        return searchBar
-    }
-    
-    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String){
-        self.searchText = searchText
-    }
-}

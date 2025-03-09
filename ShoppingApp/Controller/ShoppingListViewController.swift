@@ -7,12 +7,12 @@
 
 import UIKit
 import Kingfisher
+import Combine
 
-class ShoppingListViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class ShoppingListViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate {
     
     // MARK: - Segue Outlets
     @IBOutlet weak var productTable: UITableView!
-    
     
     // MARK: - Variables
     private var productFetcher =  FetchProducts() // Handles API alls to fetch product data
@@ -22,31 +22,42 @@ class ShoppingListViewController: UIViewController, UITableViewDataSource, UITab
             progressViewHandler.hideProgressView()
         }
     } // Holds/Stores all the fetched products
+    
+    private var filteredProducts = [ProductDetails]()
     private var progressViewHandler: ProgressViewHandler! // Handles the loading indicator
-
+    private var searchBarController = SearchBarController()
+    private var cancellables = Set<AnyCancellable>()
+    
     // MARK: - Initialization
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
         fetchProducts()
+        setupSearchBarObserver()
     }
     
     
     // MARK: - Functions
     // Setup the UI for this view
     func setupUI(){
+        // Setup the TableView
         productTable.dataSource = self
         productTable.delegate = self
         
+        // Setup the SearchBar
+        navigationItem.searchController = searchBarController.searchController
+        
+        // Setup the progress view indicator
         progressViewHandler = ProgressViewHandler(on: productTable, navigationBar: navigationController?.navigationBar)
         progressViewHandler.addRefreshAction(target: self, action: #selector(refresh))
     }
     
-    // Function to Navigate to the Cart view
-    @IBAction func gotoShoppingCartAction(_ sender: UIButton) {
-        if let shoppingCartVC = storyboard?.instantiateViewController(withIdentifier: "ShoppingCartViewController") as? ShoppingCartViewController {
-            navigationController?.pushViewController(shoppingCartVC, animated: true)
-        }
+    func setupSearchBarObserver(){
+        searchBarController.$filteredProducts
+            .sink { [weak self] results in
+                self?.productLists = results
+            }
+            .store(in: &cancellables)
     }
     
     // Refreshes the product lists when user pulls the screen to refresh
@@ -63,6 +74,7 @@ class ShoppingListViewController: UIViewController, UITableViewDataSource, UITab
                 DispatchQueue.main.async {
                     switch result {
                     case .success(let products):
+                        self?.searchBarController.setProducts(products)
                         self?.productLists = products
                         self?.productTable.reloadData() // Refreshes the table
                         self?.progressViewHandler.showProgressView(with: 1.0)
@@ -75,7 +87,6 @@ class ShoppingListViewController: UIViewController, UITableViewDataSource, UITab
         }
     
     // MARK: - TableView Delagates and DataSource
-    
     // Determine the rows of the table view
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return productLists.count
@@ -105,4 +116,13 @@ class ShoppingListViewController: UIViewController, UITableViewDataSource, UITab
             navigationController?.pushViewController(productDetailsVC, animated: true)
         }
     }
+    
+    // MARK: - Functions for Button Actions
+    // Function to Navigate to the Cart view
+    @IBAction func gotoCartItemsAction(_ sender: Any) {
+        if let shoppingCartVC = storyboard?.instantiateViewController(withIdentifier: "ShoppingCartViewController") as? ShoppingCartViewController {
+            navigationController?.pushViewController(shoppingCartVC, animated: true)
+        }
+    }
+    
 }

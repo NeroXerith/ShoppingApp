@@ -92,17 +92,10 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Shopping List" id="2dd-ed-sW6">
-                        <barButtonItem key="rightBarButtonItem" title="ShoppingCart" image="cart.fill" catalog="system" id="MNR-pX-nlL">
-                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="VFp-Qc-OLY">
-                                <rect key="frame" x="307" y="4.6666666666666679" width="87" height="35"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" image="cart.fill" catalog="system"/>
-                                <connections>
-                                    <action selector="gotoShoppingCartAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="0d3-WS-xKW"/>
-                                </connections>
-                            </button>
-                            <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <barButtonItem key="rightBarButtonItem" title="CartItems" image="cart.fill" catalog="system" id="coT-LB-5EB">
+                            <connections>
+                                <action selector="gotoCartItemsAction:" destination="BYZ-38-t0r" id="LxN-rl-aUA"/>
+                            </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
