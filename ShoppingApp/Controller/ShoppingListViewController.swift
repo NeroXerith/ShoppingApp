@@ -8,14 +8,13 @@
 import UIKit
 import Kingfisher
 
-class ShoppingListViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UITableViewDataSourcePrefetching {
+class ShoppingListViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     // MARK: - Segue Outlets
     @IBOutlet weak var productTable: UITableView!
     
     
     // MARK: - Variables
-    private let fetchProdImage = GetProductImage()
     private var productFetcher =  FetchProducts()
     private var productLists = [ProductDetails]() {
         didSet {
@@ -82,9 +81,7 @@ class ShoppingListViewController: UIViewController, UITableViewDataSource, UITab
         cell.prodNameLabel.text = product.title
         cell.prodPriceLabel.text = "$\(String(product.price))"
         
-        fetchProdImage.fetchImage(from: product.image) { image in
-            cell.prodImageView.image = image
-        }
+        ProductImageManager.loadImage(into: cell.prodImageView, from: product.image)
         
         cell.prodCategory.text = product.category
         
@@ -97,24 +94,6 @@ class ShoppingListViewController: UIViewController, UITableViewDataSource, UITab
         if let productDetailsVC = storyboard?.instantiateViewController(withIdentifier: "ProductDetailsViewController") as? ProductDetailsViewController {
             productDetailsVC.selectedProduct = selectedProduct
             navigationController?.pushViewController(productDetailsVC, animated: true)
-        }
-    }
-    
-    func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]){
-        for indexPath in indexPaths {
-            let products = productLists[indexPath.row]
-            fetchProdImage.fetchImage(from: products.image, completion: { _ in })
-        }
-    }
-    
-    func tableView(_ tableView: UITableView, cancelPrefetchingForRowsAt indexPaths: [IndexPath]) {
-        let urls: [String] = indexPaths.compactMap { indexPath in
-            guard indexPath.row < productLists.count else { return nil }
-            return productLists[indexPath.row].image
-        }
-        
-        for url in urls {
-            fetchProdImage.cancelImageFetch(from: url)
         }
     }
 }

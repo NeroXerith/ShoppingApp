@@ -35,7 +35,7 @@ class FetchProducts {
                 switch response.result {
                         case .success(let products):
                             completion(.success(products))
-                        case .failure:
+                        case .failure(_):
                             completion(.failure(.networkError))
             }
         }

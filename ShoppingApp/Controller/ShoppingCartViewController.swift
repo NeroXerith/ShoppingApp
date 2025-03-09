@@ -91,13 +91,7 @@ class ShoppingCartViewController: UIViewController, UITableViewDelegate, UITable
         cell.prodPriceLabel.text = "$\(String(product.price))"
         cell.prodQtyLabel.text = "\(cartItem.quantity)"
         
-        
-        // Fetch product image asynchronously
-        GetProductImage().fetchImage(from: product.image) { image in
-            DispatchQueue.main.async {
-                cell.prodImageHolder.image = image
-            }
-        }
+        ProductImageManager.loadImage(into: cell.prodImageHolder, from: product.image)
         
         cell.updateQuantityHandler = { increase in
                     if increase {

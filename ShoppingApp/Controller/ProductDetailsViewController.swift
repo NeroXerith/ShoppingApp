@@ -22,7 +22,6 @@ class ProductDetailsViewController: UIViewController {
     
     // MARK: - Variables
     var selectedProduct: ProductDetails?
-    private let fetchProdImage = GetProductImage()
     private var progressViewHandler: ProgressViewHandler!
     
     // MARK: - Initialization
@@ -64,9 +63,7 @@ class ProductDetailsViewController: UIViewController {
         labelProdDesc.text = product.description
         labelProdPrice.text = "$\(String(product.price))"
         
-        fetchProdImage.fetchImage(from: product.image) { image in
-            self.imageProduct.image = image
-        }
+        ProductImageManager.loadImage(into: imageProduct, from: product.image)
         
         labelProdCategory.text = product.category
         labelProdRating.text = String(product.rating.rate)
