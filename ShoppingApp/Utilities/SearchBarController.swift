@@ -11,7 +11,7 @@
 
     class SearchBarController: NSObject, UISearchResultsUpdating {
         
-        // MARK: - Properties
+        // MARK: - Variables
         let searchController: UISearchController
         @Published private(set) var filteredProducts: [ProductDetails] = [] // Publisher
         
