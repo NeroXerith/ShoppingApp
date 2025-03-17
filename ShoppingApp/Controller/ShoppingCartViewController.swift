@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Combine
 
 class ShoppingCartViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
@@ -18,6 +19,7 @@ class ShoppingCartViewController: UIViewController, UITableViewDelegate, UITable
     
     
     private var cartProducts: [CartModel] = []
+    private var cancellables = Set<AnyCancellable>()
     
     // MARK: - Views Lifecycle
     // Firs load Initialization
@@ -25,6 +27,12 @@ class ShoppingCartViewController: UIViewController, UITableViewDelegate, UITable
         super.viewDidLoad()
         setupCartTableView()
         loadCartItems()
+        
+        CartManager.shared.$cartItems
+            .sink { [weak self] _ in
+                self?.loadCartItems()
+            }
+            .store(in: &cancellables)
     }
     // Reloads every time there is a changes
     override func viewWillAppear(_ animated: Bool) {
