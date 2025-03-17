@@ -6,7 +6,7 @@
 //
 import Foundation
 
-struct CartModel {
+struct CartModel: Codable {
     let product: ProductDetails
     var quantity: Int
 }
