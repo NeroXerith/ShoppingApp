@@ -43,7 +43,7 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
         
         viewModel.$errorMessage
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] message in
+            .sink { message in
                 if let message = message {
                     print("Error: \(message)")
                 }
