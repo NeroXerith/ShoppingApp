@@ -7,11 +7,9 @@
 
 import Foundation
 import Combine
-
-
     
 class HomeViewModel: ObservableObject {
-        @Published var productLists = [ProductDetails]()
+    @Published var productLists = [ProductDetails]()
         @Published var errorMessage: String?
         @Published var isLoading = false
         
