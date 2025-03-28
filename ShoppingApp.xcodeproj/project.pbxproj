@@ -21,7 +21,9 @@
 		B683454F2D642E7000C49928 /* Exceptions for "ShoppingApp" folder in "ShoppingApp" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
+				Controller/ShoppingListViewController.swift,
 				Info.plist,
+				Model/ProductModel.swift,
 			);
 			target = B683453C2D642E6E00C49928 /* ShoppingApp */;
 		};
