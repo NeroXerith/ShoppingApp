@@ -15,14 +15,14 @@ class ProductDetailsViewController: UIViewController {
     @IBOutlet weak var scrollView: UIScrollView!
     
     // MARK: - Properties
-    var viewModel: ProductDetailsViewModel!  // ✅ FIXED: Now using ViewModel
+    var viewModel: ProductDetailsViewModel! 
     private var progressViewHandler: ProgressViewHandler!
     private var cancellables = Set<AnyCancellable>()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
-        bindViewModel()
+        observeViewModel()
         viewModel.loadProductDetails()
     }
     
@@ -36,12 +36,19 @@ class ProductDetailsViewController: UIViewController {
         progressViewHandler.addRefreshAction(target: self, action: #selector(refresh))
     }
     
-    private func bindViewModel() {
+    private func observeViewModel() {
         viewModel.$product
             .receive(on: DispatchQueue.main)
             .sink { [weak self] product in
                 guard let self = self, let product = product else { return }
                 self.updateUI(with: product)
+            }
+            .store(in: &cancellables)
+        
+        viewModel.$isLoading
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] isLoading in
+                isLoading ? self?.progressViewHandler.showProgressView() : self?.progressViewHandler.hideProgressView()
             }
             .store(in: &cancellables)
         
@@ -55,8 +62,7 @@ class ProductDetailsViewController: UIViewController {
     }
     
     @objc private func refresh() {
-        progressViewHandler.showProgressView(with: 0.1)
-        print("Pulled to Refresh!")
+        viewModel.isLoading = false
         viewModel.loadProductDetails()
     }
     

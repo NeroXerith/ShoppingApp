@@ -6,6 +6,7 @@ class ProductDetailsViewModel: ObservableObject {
     // MARK: - Published Properties
     @Published var product: ProductDetails?
     @Published var productImageURL: String?
+    @Published var isLoading = false
     
     private var cartManager: CartManager
     private var cancellables = Set<AnyCancellable>()
@@ -19,6 +20,7 @@ class ProductDetailsViewModel: ObservableObject {
     
     // MARK: - Load Product Details
     func loadProductDetails() {
+        isLoading = true
         guard let product = product else { return }
         productImageURL = product.image
     }

@@ -81,7 +81,7 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
         
         if let productDetailsVC = storyboard?.instantiateViewController(withIdentifier: "ProductDetailsViewController") as? ProductDetailsViewController {
             let productDetailsViewModel = ProductDetailsViewModel(product: selectedProduct)
-            productDetailsVC.viewModel = productDetailsViewModel  // ✅ FIX: Assign viewModel instead of selectedProduct
+            productDetailsVC.viewModel = productDetailsViewModel
             navigationController?.pushViewController(productDetailsVC, animated: true)
         }
     }
