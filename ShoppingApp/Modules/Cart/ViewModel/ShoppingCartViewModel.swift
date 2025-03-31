@@ -11,11 +11,8 @@ import Kingfisher
 
 class ShoppingCartViewModel: ObservableObject {
     @Published private(set) var cartItems: [CartModel] = []
-    @Published var subTotal: Double = 0
-    @Published var total: Double = 0
-    @Published var isEmpty: Bool = false
-    @Published var voucherCode: String = ""
-    @Published var isVoucherValid: Bool = false
+    @Published var total: String = "$0.00"
+
     
     private var cancellables = Set<AnyCancellable>()
     
@@ -24,13 +21,6 @@ class ShoppingCartViewModel: ObservableObject {
             .sink { [weak self] items in
                 self?.cartItems = items
                 self?.updateTotalPrice()
-                self?.isEmpty = items.isEmpty
-            }
-            .store(in: &cancellables)
-        
-        $voucherCode
-            .sink { [weak self] code in
-                self?.applyDiscount(code: code)
             }
             .store(in: &cancellables)
     }
@@ -48,28 +38,26 @@ class ShoppingCartViewModel: ObservableObject {
     }
     
     private func updateTotalPrice() {
-        subTotal = cartItems.reduce(0) { result, item in
+        let subTotal = cartItems.reduce(0) { result, item in
             result + (item.product.price * Double(item.quantity))
         }
-        total = subTotal
-        
-        applyDiscount(code: voucherCode)
+        total = "$\(String(format: "%.2f", subTotal))"
     }
     
-    private func applyDiscount(code: String){
+     func applyDiscount(voucherCode: String){
         
-        var discountedTotal: Double = subTotal
+        let subTotal = cartItems.reduce(0) { result, item in
+            result + (item.product.price * Double(item.quantity))
+        }
        
+        var discountedTotal: Double = subTotal
+        
         if voucherCode == "STRAT50%OFF" {
             discountedTotal *= 0.5
-            isVoucherValid = true
         } else if voucherCode == "STRAT25%OFF" {
             discountedTotal *= 0.75
-            isVoucherValid = true
-        } else {
-            isVoucherValid = false
         }
         
-        total = discountedTotal
+        total = "$\(String(format: "%.2f", discountedTotal))"
     }
 }
