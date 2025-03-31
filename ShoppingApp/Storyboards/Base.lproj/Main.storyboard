@@ -198,7 +198,7 @@
                                             </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
                                         <connections>
-                                            <action selector="prdouctAddToCart:" destination="tt5-KT-4I6" eventType="touchUpInside" id="FcJ-oL-gof"/>
+                                            <action selector="productAddToCart:" destination="tt5-KT-4I6" eventType="touchUpInside" id="NPK-f6-mw8"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -269,7 +269,7 @@
         <!--Your Cart Items-->
         <scene sceneID="rZ4-Rk-iaU">
             <objects>
-                <viewController storyboardIdentifier="ShoppingCartViewController" title="Your Cart Items" id="fQ7-mS-J9f" customClass="ShoppingCartViewController" customModule="ShoppingApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ShoppingCartViewController" title="Your Cart Items" id="fQ7-mS-J9f" customClass="OldShoppingCartViewController" customModule="ShoppingApp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="hWl-FN-Lf6" userLabel="CartTable">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

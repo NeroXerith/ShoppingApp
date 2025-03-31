@@ -1,10 +1,11 @@
 //
-//  CartViewController.swift
+//  ShoppingCartViewController.swift
 //  ShoppingApp
 //
-//  Created by Biene Bryle Sanico on 2/26/25.
+//  Created by Biene Bryle Sanico on 3/31/25.
 //
 
+import Foundation
 import UIKit
 import Combine
 
@@ -17,8 +18,7 @@ class ShoppingCartViewController: UIViewController, UITableViewDelegate, UITable
     @IBOutlet weak var voucherTextfield: UITextField!
     @IBOutlet weak var invalidCodeLabel: UILabel!
     
-    
-    private var cartProducts: [CartModel] = []
+    private var viewModel = ShoppingCartViewModel()
     private var cancellables = Set<AnyCancellable>()
     
     // MARK: - Views Lifecycle
@@ -26,18 +26,12 @@ class ShoppingCartViewController: UIViewController, UITableViewDelegate, UITable
     override func viewDidLoad() {
         super.viewDidLoad()
         setupCartTableView()
-        loadCartItems()
-        
-        CartManager.shared.$cartItems
-            .sink { [weak self] _ in
-                self?.loadCartItems()
-            }
-            .store(in: &cancellables)
+        observeViewModel()
+
     }
-    // Reloads every time there is a changes
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        loadCartItems()  // Reload cart every time this view appears
     }
     
     // MARK: - Functions
@@ -47,57 +41,33 @@ class ShoppingCartViewController: UIViewController, UITableViewDelegate, UITable
         cartTableView.dataSource = self
     }
     
-    // Load Cart Items
-    private func loadCartItems() {
-        cartProducts = CartManager.shared.getCartItems()
-        cartTableView.reloadData()
-        subtotalCountLabel.text = "$0.00"
-        updateTotalPrice()
-        // Show or hide empty cart message
-        emptyCartLabel.isHidden = !cartProducts.isEmpty
+    private func observeViewModel() {
+        viewModel.$cartItems
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                self?.cartTableView.reloadData()
+                self?.updateCartUI()
+            }
+            .store(in: &cancellables)
         
+        viewModel.$total
+            .assign(to: \.text!, on: totalCountLabel)
+            .store(in: &cancellables)
     }
-    
-    // Handles the total price
-    private func updateTotalPrice() {
-        let subTotal = cartProducts.reduce(0) { $0 + ($1.product.price * Double($1.quantity)) }
-        subtotalCountLabel.text = "$\(String(format: "%.2f", subTotal))"
-        
-        if let voucherCode = voucherTextfield.text, !voucherCode.isEmpty {
-            applyDiscount(voucherCode: voucherCode, subTotal: subTotal)
-        } else {
-            totalCountLabel.text = subtotalCountLabel.text
-        }
-    }
-    
-    // Handles the discount feature
-    private func applyDiscount(voucherCode: String, subTotal: Double){
-        var discountedTotal: Double = subTotal
-       
-        if voucherCode == "STRAT50%OFF" {
-            invalidCodeLabel.isHidden = true
-            discountedTotal = subTotal * 0.5
-        } else if voucherCode == "STRAT25%OFF" {
-            invalidCodeLabel.isHidden = true
-            discountedTotal = subTotal * 0.75
-        } else {
-            invalidCodeLabel.isHidden = false
-            voucherTextfield.text = ""
-        }
-        
-        totalCountLabel.text = "$\(String(format: "%.2f", discountedTotal))"
-        
+
+    private func updateCartUI(){
+        emptyCartLabel.isHidden = !viewModel.cartItems.isEmpty
     }
     
     // MARK: - TableView Delegates and Datasource
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return cartProducts.count
+        return viewModel.cartItems.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = cartTableView.dequeueReusableCell(withIdentifier: "CartTableViewCell", for: indexPath) as! CartTableViewCell
         
-        let cartItem = cartProducts[indexPath.row]
+        let cartItem = viewModel.cartItems[indexPath.row]
         let product = cartItem.product
         cell.prodNameLabel.text = product.title
         cell.prodCategoryLabel.text = product.category
@@ -112,29 +82,27 @@ class ShoppingCartViewController: UIViewController, UITableViewDelegate, UITable
                     } else {
                         CartManager.shared.decreaseQuantity(product.id)
                     }
-                    self.loadCartItems()
                 }
         return cell
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            let product = cartProducts[indexPath.row].product
+            let product = viewModel.cartItems[indexPath.row].product
             CartManager.shared.removeFromCart(product.id)
-            loadCartItems()
         }
     }
     
     // MARK: - Functions for Button Actions
     @IBAction func applyVoucherButton(_ sender: Any) {
-        guard !cartProducts.isEmpty else {
+        guard !viewModel.cartItems.isEmpty else {
             return
         }
-        guard let voucherCode = voucherTextfield.text, !voucherCode.isEmpty else {
+        guard let code = voucherTextfield.text, !code.isEmpty else {
             return
         }
         
-        let subTotal = cartProducts.reduce(0) { $0 + ($1.product.price * Double($1.quantity))}
-        applyDiscount(voucherCode: voucherCode, subTotal: subTotal)
+        viewModel.applyDiscount(voucherCode: code)
+        invalidCodeLabel.isHidden = code == "STRAT50%OFF" || code == "STRAT25%OFF"
     }
 }
