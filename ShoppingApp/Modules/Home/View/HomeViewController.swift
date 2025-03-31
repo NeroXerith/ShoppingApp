@@ -90,7 +90,7 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
     // MARK: - Functions for Button Actions
     // Function to Navigate to the Cart View
     @IBAction func gotoCartItemsAction(_ sender: Any) {
-        if let shoppingCartVC = storyboard?.instantiateViewController(withIdentifier: "ShoppingCartViewController") as? ShoppingCartViewController {
+        if let shoppingCartVC = storyboard?.instantiateViewController(withIdentifier: "ShoppingCartViewController") as? OldShoppingCartViewController {
             navigationController?.pushViewController(shoppingCartVC, animated: true)
         }
     }
