@@ -78,11 +78,14 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
     // Navigates to the product details screen when a row/cell is selected
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let selectedProduct = viewModel.productLists[indexPath.row]
+        
         if let productDetailsVC = storyboard?.instantiateViewController(withIdentifier: "ProductDetailsViewController") as? ProductDetailsViewController {
-            productDetailsVC.selectedProduct = selectedProduct
+            let productDetailsViewModel = ProductDetailsViewModel(product: selectedProduct)
+            productDetailsVC.viewModel = productDetailsViewModel
             navigationController?.pushViewController(productDetailsVC, animated: true)
         }
     }
+
     
     // MARK: - Functions for Button Actions
     // Function to Navigate to the Cart View
