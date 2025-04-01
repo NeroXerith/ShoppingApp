@@ -12,7 +12,7 @@ import Kingfisher
 class ShoppingCartViewModel: ObservableObject {
     @Published private(set) var cartItems: [CartModel] = []
     @Published var total: String = "$0.00"
-
+    @Published var subtotal: String = "$0.00"
     
     private var cancellables = Set<AnyCancellable>()
     
@@ -41,6 +41,7 @@ class ShoppingCartViewModel: ObservableObject {
         let subTotal = cartItems.reduce(0) { result, item in
             result + (item.product.price * Double(item.quantity))
         }
+        subtotal = "$\(String(format: "%.2f", subTotal))"
         total = "$\(String(format: "%.2f", subTotal))"
     }
     

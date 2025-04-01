@@ -18,7 +18,7 @@ class ShoppingCartViewController: UIViewController, UITableViewDelegate, UITable
     @IBOutlet weak var voucherTextfield: UITextField!
     @IBOutlet weak var invalidCodeLabel: UILabel!
     
-    private var viewModel = ShoppingCartViewModel()
+    var viewModel = ShoppingCartViewModel()
     private var cancellables = Set<AnyCancellable>()
     
     // MARK: - Views Lifecycle
@@ -48,6 +48,10 @@ class ShoppingCartViewController: UIViewController, UITableViewDelegate, UITable
                 self?.cartTableView.reloadData()
                 self?.updateCartUI()
             }
+            .store(in: &cancellables)
+        
+        viewModel.$subtotal
+            .assign(to: \.text!, on: subtotalCountLabel)
             .store(in: &cancellables)
         
         viewModel.$total
