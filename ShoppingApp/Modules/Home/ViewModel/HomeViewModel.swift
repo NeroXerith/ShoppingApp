@@ -9,45 +9,50 @@ import Foundation
 import Combine
     
 class HomeViewModel: ObservableObject {
-        @Published var productLists = [ProductDetails]()
-        @Published var errorMessage: String?
-        @Published var isLoading = false
+    // MARK: - Publishers
+    @Published var productLists = [ProductDetails]()
+    @Published var errorMessage: String?
+    @Published var isLoading = false
+    
+    // MARK: - Variables
+    private var productFetcher = FetchProducts()
+    private var coreDataManager = CoreDataManager.shared
+    var searchBarController = SearchBarController()
+    private var cancellables = Set<AnyCancellable>()
         
-        private var productFetcher = FetchProducts()
-        var searchBarController = SearchBarController()
-        private var cancellables = Set<AnyCancellable>()
-        
-        init() {
-            fetchProducts()
-            setupSearchBarObserver()
-        }
-        
-        func fetchProducts() {
-            isLoading = true
-            productFetcher.fetchProducts { [weak self] result in
-                DispatchQueue.main.async {
-                    self?.isLoading = false
-                    switch result {
-                    case .success(let products):
-                        self?.searchBarController.setProducts(products)
-                        self?.productLists = products
-                    case .failure(let error):
-                        self?.errorMessage = error.localizedDescription
-                    }
-                }
+    init() {
+        fetchProducts()
+        setupSearchBarObserver()
+    }
+    
+    // MARK: - [Subscriber] Retrieve data either from CoreData or Cloud
+    func fetchProducts() {
+        coreDataManager.$products
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] products in
+                self?.productLists = products
+                self?.searchBarController.setProducts(products)
             }
-        }
-        
-        private func setupSearchBarObserver() {
-            searchBarController.$filteredProducts
-                .sink { [weak self] results in
-                    self?.productLists = results
-                }
-                .store(in: &cancellables)
-        }
-        
-        func refreshProducts() {
-            fetchProducts()
+            .store(in: &cancellables)
+    }
+    
+    // MARK: - [Subscriber]
+    private func setupSearchBarObserver() {
+        searchBarController.$filteredProducts
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] results in
+                self?.productLists = results
+            }
+            .store(in: &cancellables)
+    }
+    
+    // MARK: - [Subscriber] refresh the data when the user pull the screen
+    func refreshProducts() {
+        isLoading = true
+        coreDataManager.loadProductsFromAPI()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            self.isLoading = false
         }
     }
+}
 
