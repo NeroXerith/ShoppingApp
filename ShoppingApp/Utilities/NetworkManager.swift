@@ -14,7 +14,7 @@ class NetworkManager: ObservableObject {
     private let queue = DispatchQueue(label: "NetworkMonitoringQueue")
     @Published var isConnected: Bool = true
     
-    init() {
+    private init() {
         monitorNetwork.pathUpdateHandler = { [weak self] path in
             DispatchQueue.main.async {
                 self?.isConnected = path.status == .satisfied

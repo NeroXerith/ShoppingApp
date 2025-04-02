@@ -67,6 +67,7 @@ class CoreDataManager {
             newProduct.title = product.title
             newProduct.desc = product.description
             newProduct.category = product.category
+            newProduct.price = product.price
             newProduct.imageURL = product.image
             newProduct.rate = Double(product.rating.rate)
             newProduct.count = Int64(product.rating.count)
