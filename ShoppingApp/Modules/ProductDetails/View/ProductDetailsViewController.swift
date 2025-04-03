@@ -26,6 +26,7 @@ class ProductDetailsViewController: UIViewController {
         viewModel.loadProductDetails()
     }
     
+    // MARK: - Configure the UI
     private func setupUI() {
         ratingCountLabel.layer.masksToBounds = true
         ratingCountLabel.layer.cornerRadius = 5
@@ -36,6 +37,7 @@ class ProductDetailsViewController: UIViewController {
         progressViewHandler.addRefreshAction(target: self, action: #selector(refresh))
     }
     
+    // MARK: - [Subscribers} observes changes from the Publishers
     private func observeViewModel() {
         viewModel.$product
             .receive(on: DispatchQueue.main)
@@ -61,11 +63,13 @@ class ProductDetailsViewController: UIViewController {
             .store(in: &cancellables)
     }
     
+    // MARK: -
     @objc private func refresh() {
         viewModel.isLoading = false
         viewModel.loadProductDetails()
     }
     
+    // MARK: - Triggers everytime there are changes from the publisher, connected to the subscriber (observeViewModel function)
     private func updateUI(with product: ProductDetails) {
         productNameLabel.text = product.title
         productDescriptionLabel.text = product.description
@@ -77,6 +81,7 @@ class ProductDetailsViewController: UIViewController {
         progressViewHandler.hideProgressView()
     }
     
+    // MARK: - Action button to add the item to the cart
     @IBAction func productAddToCart(_ sender: Any) {
         viewModel.addToCart()
         
