@@ -52,6 +52,7 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
     }
     
     @objc func refresh() {
+        print("Pulled to refresh!")
         viewModel.refreshProducts()
     }
     
