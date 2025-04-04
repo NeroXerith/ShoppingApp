@@ -84,6 +84,7 @@ class CartManager {
             newCartItems.itemCartCategory = items.product.category
             newCartItems.itemCartPrice = items.product.price
             newCartItems.itemCartImageURL = items.product.image
+            newCartItems.itemCartQty = Int64(items.quantity)
             newCartItems.itemCartRate = Double(items.product.rating.rate)
             newCartItems.itemCartCount = Int64(items.product.rating.count)
         
