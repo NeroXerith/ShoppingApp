@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		B623FDCD2D9BF8BE00785631 /* Product.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B623FDCB2D9BF8BE00785631 /* Product.xcdatamodeld */; };
+		B6A2518F2D9E5D9E00818CD9 /* ShoppingAppCore.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B623FDCB2D9BF8BE00785631 /* ShoppingAppCore.xcdatamodeld */; };
 		FB32961CF4CBE0D75166CCA7 /* Pods_ShoppingApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A09985530B7596ECC1177FA /* Pods_ShoppingApp.framework */; };
 /* End PBXBuildFile section */
 
@@ -15,7 +15,7 @@
 		4A09985530B7596ECC1177FA /* Pods_ShoppingApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ShoppingApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A25A72C117BCE765C52C4287 /* Pods-ShoppingApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ShoppingApp.release.xcconfig"; path = "Target Support Files/Pods-ShoppingApp/Pods-ShoppingApp.release.xcconfig"; sourceTree = "<group>"; };
 		AAAC4D74455E346B15709C13 /* Pods-ShoppingApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ShoppingApp.debug.xcconfig"; path = "Target Support Files/Pods-ShoppingApp/Pods-ShoppingApp.debug.xcconfig"; sourceTree = "<group>"; };
-		B623FDCC2D9BF8BE00785631 /* Product.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Product.xcdatamodel; sourceTree = "<group>"; };
+		B623FDCC2D9BF8BE00785631 /* ShoppingAppCore.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ShoppingAppCore.xcdatamodel; sourceTree = "<group>"; };
 		B683453D2D642E6E00C49928 /* ShoppingApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ShoppingApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -63,7 +63,7 @@
 		B68345342D642E6E00C49928 = {
 			isa = PBXGroup;
 			children = (
-				B623FDCB2D9BF8BE00785631 /* Product.xcdatamodeld */,
+				B623FDCB2D9BF8BE00785631 /* ShoppingAppCore.xcdatamodeld */,
 				B683453F2D642E6E00C49928 /* ShoppingApp */,
 				B683453E2D642E6E00C49928 /* Products */,
 				D6E133B0261F942F05567C54 /* Pods */,
@@ -204,7 +204,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B623FDCD2D9BF8BE00785631 /* Product.xcdatamodeld in Sources */,
+				B6A2518F2D9E5D9E00818CD9 /* ShoppingAppCore.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -416,13 +416,13 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		B623FDCB2D9BF8BE00785631 /* Product.xcdatamodeld */ = {
+		B623FDCB2D9BF8BE00785631 /* ShoppingAppCore.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				B623FDCC2D9BF8BE00785631 /* Product.xcdatamodel */,
+				B623FDCC2D9BF8BE00785631 /* ShoppingAppCore.xcdatamodel */,
 			);
-			currentVersion = B623FDCC2D9BF8BE00785631 /* Product.xcdatamodel */;
-			path = Product.xcdatamodeld;
+			currentVersion = B623FDCC2D9BF8BE00785631 /* ShoppingAppCore.xcdatamodel */;
+			path = ShoppingAppCore.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};
