@@ -92,7 +92,7 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Shopping List" id="2dd-ed-sW6">
-                        <barButtonItem key="leftBarButtonItem" title="FilteringItems" image="line.3.horizontal.decrease" catalog="system" style="plain" id="q8z-eC-cis">
+                        <barButtonItem key="leftBarButtonItem" title="FilteringItems" image="line.3.horizontal.decrease" catalog="system" id="q8z-eC-cis">
                             <connections>
                                 <action selector="filterButtonTapped:" destination="BYZ-38-t0r" id="vtM-gF-Wg8"/>
                             </connections>

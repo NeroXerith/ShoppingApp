@@ -10,9 +10,10 @@ import Combine
 
 class FilterViewController: UIViewController {
     var viewModel = FilterViewModel()
-    var applyFilter: ((SortOption, Double, Double) -> Void)?
+    var applyFilter: ((SortOption, SortOption, Double, Double) -> Void)?
 
     @IBOutlet weak var sortSegmentedControl: UISegmentedControl!
+    @IBOutlet weak var priceSortSegmentedControl: UISegmentedControl!
     @IBOutlet weak var minPriceTextField: UITextField!
     @IBOutlet weak var maxPriceTextField: UITextField!
     
@@ -24,13 +25,21 @@ class FilterViewController: UIViewController {
     }
     
     private func bindUI() {
+        // Title sorting
         sortSegmentedControl.selectedSegmentIndex = 0
+        sortSegmentedControl.addTarget(self, action: #selector(titleSortChanged), for: .valueChanged)
         
-        sortSegmentedControl.addTarget(self, action: #selector(sortChanged), for: .valueChanged)
+        // Price sorting
+        priceSortSegmentedControl.selectedSegmentIndex = 0
+        priceSortSegmentedControl.addTarget(self, action: #selector(priceSortChanged), for: .valueChanged)
     }
     
-    @objc func sortChanged() {
-        viewModel.sortOption = sortSegmentedControl.selectedSegmentIndex == 0 ? .ascending : .descending
+    @objc func titleSortChanged() {
+        viewModel.titleSortOption = sortSegmentedControl.selectedSegmentIndex == 0 ? .ascending : .descending
+    }
+
+    @objc func priceSortChanged() {
+        viewModel.priceSortOption = priceSortSegmentedControl.selectedSegmentIndex == 0 ? .lowestToHighest : .highestToLowest
     }
     
     @IBAction func applyButtonTapped(_ sender: UIButton) {
@@ -40,8 +49,8 @@ class FilterViewController: UIViewController {
         viewModel.minPrice = min
         viewModel.maxPrice = max
         
-        applyFilter?(viewModel.sortOption, viewModel.minPrice, viewModel.maxPrice)
-        
+        applyFilter?(viewModel.titleSortOption, viewModel.priceSortOption, viewModel.minPrice, viewModel.maxPrice)
+            
         dismiss(animated: true)
     }
 }

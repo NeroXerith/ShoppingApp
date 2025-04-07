@@ -113,10 +113,10 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
                     sheet.preferredCornerRadius = 25
                 }
                 
-                filterVC.applyFilter = { [weak self] sortOption, minPrice, maxPrice in
-                    self?.viewModel.applyFilter(sortOption: sortOption, minPrice: minPrice, maxPrice: maxPrice)
-                }
-                
-                present(filterVC, animated: true)
+        filterVC.applyFilter = { [weak self] titleSortOption, priceSortOption, minPrice, maxPrice in
+            self?.viewModel.applyFilter(titleSortOption: titleSortOption, priceSortOption: priceSortOption, minPrice: minPrice, maxPrice: maxPrice)
+        }
+        
+        present(filterVC, animated: true)
     }
 }

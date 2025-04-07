@@ -12,6 +12,7 @@
             <connections>
                 <outlet property="maxPriceTextField" destination="Vb3-8v-uL3" id="feW-Ra-lyr"/>
                 <outlet property="minPriceTextField" destination="Rkp-Lx-heq" id="WTe-vq-BUT"/>
+                <outlet property="priceSortSegmentedControl" destination="b58-6d-opV" id="YpI-ID-Xna"/>
                 <outlet property="sortSegmentedControl" destination="vx5-WS-1t1" id="fPB-pE-8Tf"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -22,7 +23,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="i4W-sw-rwD">
-                    <rect key="frame" x="38" y="236" width="317" height="232"/>
+                    <rect key="frame" x="38" y="59" width="317" height="326"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
                         <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="vx5-WS-1t1">
@@ -46,7 +47,7 @@
                             <textInputTraits key="textInputTraits"/>
                         </textField>
                         <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5Nf-TN-jS9">
-                            <rect key="frame" x="125" y="177" width="68" height="35"/>
+                            <rect key="frame" x="124" y="227" width="68" height="35"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <state key="normal" title="Button"/>
                             <buttonConfiguration key="configuration" style="gray" title="Apply"/>
@@ -54,6 +55,14 @@
                                 <action selector="applyButtonTapped:" destination="-1" eventType="touchUpInside" id="jFb-Xr-KUy"/>
                             </connections>
                         </button>
+                        <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="b58-6d-opV">
+                            <rect key="frame" x="35" y="169" width="265" height="32"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <segments>
+                                <segment title="Lowest to Highest"/>
+                                <segment title="Highest to Lowest"/>
+                            </segments>
+                        </segmentedControl>
                     </subviews>
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                 </view>
