@@ -49,6 +49,11 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
                 }
             }
             .store(in: &cancellables)
+        
+        viewModel.$filteredProducts
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in self?.productTable.reloadData() }
+            .store(in: &cancellables)
     }
     
     @objc func refresh() {
@@ -60,13 +65,13 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
     // MARK: - Populate the tableView, Delegates and DataSource
     // Determine the rows of the table view
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.productLists.count
+        return viewModel.filteredProducts.count
     }
     
     // Configure the UI for a specific cell and populate it
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = productTable.dequeueReusableCell(withIdentifier: "ProductTableViewCell", for: indexPath) as! ProductTableViewCell
-        let product = viewModel.productLists[indexPath.row]
+        let product = viewModel.filteredProducts[indexPath.row]
         
         cell.prodNameLabel.text = product.title
         cell.prodPriceLabel.text = "$\(String(product.price))"
@@ -78,7 +83,7 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
     
     // Navigates to the product details screen when a row/cell is selected
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let selectedProduct = viewModel.productLists[indexPath.row]
+        let selectedProduct = viewModel.filteredProducts[indexPath.row]
         
         if let productDetailsVC = storyboard?.instantiateViewController(withIdentifier: "ProductDetailsViewController") as? ProductDetailsViewController {
             let productDetailsViewModel = ProductDetailsViewModel(product: selectedProduct)
@@ -96,5 +101,22 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
             shoppingCartVC.viewModel = ShoppingCartViewModel
             navigationController?.pushViewController(shoppingCartVC, animated: true)
         }
+    }
+    
+    // Function to Navigate to the Advance Filtering sheet
+    @IBAction func filterButtonTapped(_ sender: UIBarButtonItem) {
+        let filterVC = FilterViewController(nibName: "FilterViewController", bundle: nil)
+                
+                if let sheet = filterVC.sheetPresentationController {
+                    sheet.detents = [.medium(), .large()]
+                    sheet.prefersGrabberVisible = true
+                    sheet.preferredCornerRadius = 25
+                }
+                
+                filterVC.applyFilter = { [weak self] sortOption, minPrice, maxPrice in
+                    self?.viewModel.applyFilter(sortOption: sortOption, minPrice: minPrice, maxPrice: maxPrice)
+                }
+                
+                present(filterVC, animated: true)
     }
 }

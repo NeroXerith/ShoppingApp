@@ -11,6 +11,7 @@ import Combine
 class HomeViewModel: ObservableObject {
     // MARK: - Publishers
     @Published var productLists = [ProductDetails]()
+    @Published var filteredProducts: [ProductDetails] = []
     @Published var errorMessage: String?
     @Published var isLoading = false
     
@@ -31,9 +32,11 @@ class HomeViewModel: ObservableObject {
             .receive(on: DispatchQueue.main)
             .sink { [weak self] products in
                 self?.productLists = products
+                self?.filteredProducts = products
                 self?.searchBarController.setProducts(products)
             }
             .store(in: &cancellables)
+        
     }
     
     // MARK: - [Subscriber]
@@ -53,6 +56,19 @@ class HomeViewModel: ObservableObject {
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             self.isLoading = false
         }
+    }
+    
+    func applyFilter(sortOption: SortOption, minPrice: Double, maxPrice: Double) {
+        var filtered = productLists.filter { $0.price >= minPrice && $0.price <= maxPrice }
+        
+        switch sortOption {
+        case .ascending:
+            filtered.sort { $0.price < $1.price }
+        case .descending:
+            filtered.sort { $0.price > $1.price }
+        }
+        
+        filteredProducts = filtered
     }
 }
 
