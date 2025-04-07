@@ -5,12 +5,12 @@
 //  Created by Biene Bryle Sanico on 4/7/25.
 //
 
-// FilterViewModel.swift
 import Foundation
 import Combine
 
 class FilterViewModel: ObservableObject {
-    @Published var sortOption: SortOption = .ascending
+    @Published var titleSortOption: SortOption = .ascending
+    @Published var priceSortOption: SortOption = .lowestToHighest
     @Published var minPrice: Double = 0
     @Published var maxPrice: Double = 100000
 }
@@ -18,5 +18,6 @@ class FilterViewModel: ObservableObject {
 enum SortOption: String {
     case ascending = "asc"
     case descending = "desc"
+    case highestToLowest = "high_to_low"
+    case lowestToHighest = "low_to_high"
 }
-

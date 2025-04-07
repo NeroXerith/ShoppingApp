@@ -14,6 +14,10 @@ class HomeViewModel: ObservableObject {
     @Published var filteredProducts: [ProductDetails] = []
     @Published var errorMessage: String?
     @Published var isLoading = false
+    @Published var titleSortOption: SortOption = .ascending
+    @Published var priceSortOption: SortOption = .lowestToHighest
+    @Published var minPrice: Double = 0
+        @Published var maxPrice: Double = 100000
     
     // MARK: - Variables
     private var productFetcher = FetchProducts()
@@ -58,17 +62,30 @@ class HomeViewModel: ObservableObject {
         }
     }
     
-    func applyFilter(sortOption: SortOption, minPrice: Double, maxPrice: Double) {
-        var filtered = productLists.filter { $0.price >= minPrice && $0.price <= maxPrice }
-        
-        switch sortOption {
-        case .ascending:
-            filtered.sort { $0.price < $1.price }
-        case .descending:
-            filtered.sort { $0.price > $1.price }
+    func applyFilter(titleSortOption: SortOption, priceSortOption: SortOption, minPrice: Double, maxPrice: Double) {
+            var filtered = productLists.filter { $0.price >= minPrice && $0.price <= maxPrice }
+            
+            // Apply title sorting first
+            switch titleSortOption {
+            case .ascending:
+                filtered.sort { $0.title < $1.title }
+            case .descending:
+                filtered.sort { $0.title > $1.title }
+            default:
+                break
+            }
+
+            // Apply price sorting after title sorting
+            switch priceSortOption {
+            case .lowestToHighest:
+                filtered.sort { $0.price < $1.price }
+            case .highestToLowest:
+                filtered.sort { $0.price > $1.price }
+            default:
+                break
+            }
+
+            filteredProducts = filtered
         }
-        
-        filteredProducts = filtered
-    }
 }
 
