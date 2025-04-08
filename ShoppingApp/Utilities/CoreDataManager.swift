@@ -23,6 +23,7 @@ class CoreDataManager {
     private let fetchProductFromAPI = FetchProducts()
     
     @Published private(set) var products: [ProductDetails] = []
+    @Published var isLoading: Bool = false
     private var cancellables = Set<AnyCancellable>()
     private init() {
         persistentContainer = (UIApplication.shared.delegate as! AppDelegate).persistentContainer
@@ -44,15 +45,19 @@ class CoreDataManager {
     
     // Retrieve data from API if not connected to the internet
     func loadProductsFromAPI() {
+        isLoading = true
         fetchProductFromAPI.fetchProducts { [weak self] result in
             switch result {
             case .success(let products):
                 DispatchQueue.main.async {
                     self?.products = products
+                    self?.isLoading = false
                     self?.saveProductsToCoreData(products)
                 }
             case .failure(let error):
                 print("Error fetching products: \(error)")
+                self?.isLoading = false
+                
             }
         }
     }
@@ -85,6 +90,7 @@ class CoreDataManager {
     }
     
     func loadProductsFromCoreData(){
+        isLoading = true
         let context = self.persistentContainer.viewContext
         let fetchRequest: NSFetchRequest<Product> = Product.fetchRequest()
         
@@ -102,8 +108,10 @@ class CoreDataManager {
                 )
                 
             }
+            isLoading = false
         } catch {
             print("Failed to fetch Products: \(error)")
+            isLoading = false
         }
     }
     
