@@ -2,8 +2,9 @@ import UIKit
 import Kingfisher
 import Combine
 
-class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
-    @IBOutlet weak var productTable: UITableView!
+class HomeViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {
+    
+    @IBOutlet weak var productCollection: UICollectionView!
     
     // MARK: - Variables
     private var viewModel = HomeViewModel() // Bind the viewModel
@@ -19,11 +20,13 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
     
     // MARK: - Config UI for this view
     private func setupUI() {
-        productTable.dataSource = self
-        productTable.delegate = self
+        productCollection.register(UINib(nibName: "HomeCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "ProductCollectionCell")
+
+        productCollection.dataSource = self
+        productCollection.delegate = self
         navigationItem.searchController = viewModel.searchBarController.searchController
         
-        progressViewHandler = ProgressViewHandler(on: productTable, navigationBar: navigationController?.navigationBar)
+        progressViewHandler = ProgressViewHandler(on: productCollection, navigationBar: navigationController?.navigationBar)
         progressViewHandler.addRefreshAction(target: self, action: #selector(refresh))
     }
     
@@ -31,9 +34,10 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
     private func observeViewModel() {
         viewModel.$productLists
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] _ in self?.productTable.reloadData() }
+            .sink { [weak self] _ in self?.productCollection.reloadData() }
             .store(in: &cancellables)
         
+         
         viewModel.$isLoading
             .receive(on: DispatchQueue.main)
             .sink { [weak self] isLoading in
@@ -52,7 +56,7 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
         
         viewModel.$filteredProducts
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] _ in self?.productTable.reloadData() }
+            .sink { [weak self] _ in self?.productCollection.reloadData() }
             .store(in: &cancellables)
     }
     
@@ -64,13 +68,14 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
     
     // MARK: - Populate the tableView, Delegates and DataSource
     // Determine the rows of the table view
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return viewModel.filteredProducts.count
     }
     
     // Configure the UI for a specific cell and populate it
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = productTable.dequeueReusableCell(withIdentifier: "ProductTableViewCell", for: indexPath) as! ProductTableViewCell
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = productCollection.dequeueReusableCell(withReuseIdentifier: "ProductCollectionCell", for: indexPath) as! HomeCollectionViewCell
+        
         let product = viewModel.filteredProducts[indexPath.row]
         
         cell.prodNameLabel.text = product.title
@@ -81,16 +86,16 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
         return cell
     }
     
-    // Navigates to the product details screen when a row/cell is selected
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let selectedProduct = viewModel.filteredProducts[indexPath.row]
-        
-        if let productDetailsVC = storyboard?.instantiateViewController(withIdentifier: "ProductDetailsViewController") as? ProductDetailsViewController {
-            let productDetailsViewModel = ProductDetailsViewModel(product: selectedProduct)
-            productDetailsVC.viewModel = productDetailsViewModel
-            navigationController?.pushViewController(productDetailsVC, animated: true)
-        }
-    }
+//    // Navigates to the product details screen when a row/cell is selected
+//    func collectionView(_ collectionView: UICollectionView, didSelectRowAt indexPath: IndexPath) {
+//        let selectedProduct = viewModel.filteredProducts[indexPath.row]
+//        
+//        if let productDetailsVC = storyboard?.instantiateViewController(withIdentifier: "ProductDetailsViewController") as? ProductDetailsViewController {
+//            let productDetailsViewModel = ProductDetailsViewModel(product: selectedProduct)
+//            productDetailsVC.viewModel = productDetailsViewModel
+//            navigationController?.pushViewController(productDetailsVC, animated: true)
+//        }
+//    }
 
     
     // MARK: - Functions for Button Actions

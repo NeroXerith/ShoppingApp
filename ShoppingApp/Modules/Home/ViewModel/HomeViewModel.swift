@@ -13,11 +13,11 @@ class HomeViewModel: ObservableObject {
     @Published var productLists = [ProductDetails]()
     @Published var filteredProducts: [ProductDetails] = []
     @Published var errorMessage: String?
-    @Published var isLoading = false
     @Published var titleSortOption: SortOption = .ascending
     @Published var priceSortOption: SortOption = .lowestToHighest
     @Published var minPrice: Double = 0
-        @Published var maxPrice: Double = 100000
+    @Published var maxPrice: Double = 100000
+    @Published var isLoading: Bool = false
     
     // MARK: - Variables
     private var productFetcher = FetchProducts()
@@ -41,6 +41,13 @@ class HomeViewModel: ObservableObject {
             }
             .store(in: &cancellables)
         
+        coreDataManager.$isLoading
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] isLoading in
+                self?.isLoading = isLoading
+            }
+            .store(in: &cancellables)
+        
     }
     
     // MARK: - [Subscriber]
@@ -55,11 +62,7 @@ class HomeViewModel: ObservableObject {
     
     // MARK: - [Subscriber] refresh the data when the user pull the screen
     func refreshProducts() {
-        isLoading = true
         coreDataManager.loadProductsFromAPI()
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            self.isLoading = false
-        }
     }
     
     func applyFilter(titleSortOption: SortOption, priceSortOption: SortOption, minPrice: Double, maxPrice: Double) {
