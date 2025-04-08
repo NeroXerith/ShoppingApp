@@ -17,10 +17,10 @@
                 <rect key="frame" x="0.0" y="0.0" width="266" height="299"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="253" text="title" textAlignment="natural" lineBreakMode="characterWrap" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mox-Kp-0la">
-                        <rect key="frame" x="9" y="228" width="126" height="19"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="253" text="title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mox-Kp-0la">
+                        <rect key="frame" x="9" y="228" width="149" height="19"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="126" id="OEO-Ux-4nz"/>
+                            <constraint firstAttribute="width" constant="149" id="OEO-Ux-4nz"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
                         <nil key="textColor"/>
@@ -37,7 +37,7 @@
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Price" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xEn-vF-HLF">
-                        <rect key="frame" x="148" y="259" width="37" height="19.333333333333314"/>
+                        <rect key="frame" x="85" y="259" width="37" height="19.333333333333314"/>
                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
                         <color key="textColor" red="0.75686275960000005" green="0.27843138579999999" blue="0.45098042490000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                         <nil key="highlightedColor"/>
@@ -53,7 +53,7 @@
                 <constraint firstItem="mox-Kp-0la" firstAttribute="leading" secondItem="LpW-tO-XT6" secondAttribute="leading" id="cBf-xa-r2k"/>
                 <constraint firstItem="xEn-vF-HLF" firstAttribute="top" secondItem="3f5-2T-BkK" secondAttribute="bottom" constant="47" id="coy-U3-ZPT"/>
                 <constraint firstItem="3f5-2T-BkK" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="dC6-Fl-OX5"/>
-                <constraint firstAttribute="trailing" secondItem="xEn-vF-HLF" secondAttribute="trailing" constant="81" id="lKY-Te-eHA"/>
+                <constraint firstAttribute="trailing" secondItem="xEn-vF-HLF" secondAttribute="trailing" constant="144" id="lKY-Te-eHA"/>
                 <constraint firstItem="LpW-tO-XT6" firstAttribute="top" secondItem="mox-Kp-0la" secondAttribute="bottom" constant="10.666666666666657" id="nJL-sr-pF5"/>
                 <constraint firstItem="mox-Kp-0la" firstAttribute="top" secondItem="3f5-2T-BkK" secondAttribute="bottom" constant="16" id="wim-6u-j2E"/>
                 <constraint firstItem="3f5-2T-BkK" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="wjm-Uv-dOp"/>

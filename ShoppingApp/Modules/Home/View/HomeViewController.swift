@@ -86,16 +86,16 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
         return cell
     }
     
-//    // Navigates to the product details screen when a row/cell is selected
-//    func collectionView(_ collectionView: UICollectionView, didSelectRowAt indexPath: IndexPath) {
-//        let selectedProduct = viewModel.filteredProducts[indexPath.row]
-//        
-//        if let productDetailsVC = storyboard?.instantiateViewController(withIdentifier: "ProductDetailsViewController") as? ProductDetailsViewController {
-//            let productDetailsViewModel = ProductDetailsViewModel(product: selectedProduct)
-//            productDetailsVC.viewModel = productDetailsViewModel
-//            navigationController?.pushViewController(productDetailsVC, animated: true)
-//        }
-//    }
+    // Navigates to the product details screen when a row/cell is selected
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let selectedProduct = viewModel.filteredProducts[indexPath.row]
+        
+        if let productDetailsVC = storyboard?.instantiateViewController(withIdentifier: "ProductDetailsViewController") as? ProductDetailsViewController {
+            let productDetailsViewModel = ProductDetailsViewModel(product: selectedProduct)
+            productDetailsVC.viewModel = productDetailsViewModel
+            navigationController?.pushViewController(productDetailsVC, animated: true)
+        }
+    }
 
     
     // MARK: - Functions for Button Actions
