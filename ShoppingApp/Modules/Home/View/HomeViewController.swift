@@ -30,6 +30,20 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
         progressViewHandler.addRefreshAction(target: self, action: #selector(refresh))
     }
     
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        if let layout = productCollection.collectionViewLayout as? UICollectionViewFlowLayout {
+            let numberOfColumns: CGFloat = 2
+            let spacing: CGFloat = 10
+            
+            let totalSpacing = (numberOfColumns - 1) * spacing + layout.sectionInset.left + layout.sectionInset.right
+            
+            let itemWidth = (productCollection.bounds.width - totalSpacing) / numberOfColumns
+            
+            layout.itemSize = CGSize(width: itemWidth, height: itemWidth * 1.5)
+        }
+    }
     // MARK: - Subscribers
     private func observeViewModel() {
         viewModel.$productLists
