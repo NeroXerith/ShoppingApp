@@ -25,6 +25,7 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
         productCollection.dataSource = self
         productCollection.delegate = self
         navigationItem.searchController = viewModel.searchBarController.searchController
+       
         
         progressViewHandler = ProgressViewHandler(on: productCollection, navigationBar: navigationController?.navigationBar)
         progressViewHandler.addRefreshAction(target: self, action: #selector(refresh))
@@ -109,6 +110,18 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
             productDetailsVC.viewModel = productDetailsViewModel
             navigationController?.pushViewController(productDetailsVC, animated: true)
         }
+    }
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        if kind == UICollectionView.elementKindSectionHeader {
+                let header = collectionView.dequeueReusableSupplementaryView(
+                    ofKind: kind,
+                    withReuseIdentifier: "DiscoverSection",
+                    for: indexPath
+                ) as! SectionHeaderCollectionReusableView
+            
+                return header
+            }
+        return UICollectionReusableView()
     }
 
     
