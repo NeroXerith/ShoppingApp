@@ -47,7 +47,7 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
     }
     // MARK: - Subscribers
     private func observeViewModel() {
-        viewModel.$productLists
+        viewModel.$unfilteredProductLists
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in self?.productCollection.reloadData() }
             .store(in: &cancellables)
@@ -69,7 +69,7 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
             }
             .store(in: &cancellables)
         
-        viewModel.$filteredProducts
+        viewModel.$filteredProductLists
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in self?.productCollection.reloadData() }
             .store(in: &cancellables)
@@ -84,14 +84,14 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
     // MARK: - Populate the tableView, Delegates and DataSource
     // Determine the rows of the table view
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return viewModel.filteredProducts.count
+        return viewModel.filteredProductLists.count
     }
     
     // Configure the UI for a specific cell and populate it
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = productCollection.dequeueReusableCell(withReuseIdentifier: "ProductCollectionCell", for: indexPath) as! HomeCollectionViewCell
         
-        let product = viewModel.filteredProducts[indexPath.row]
+        let product = viewModel.filteredProductLists[indexPath.row]
         
         cell.prodNameLabel.text = product.title
         cell.prodPriceLabel.text = "$\(String(product.price))"
@@ -103,7 +103,7 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
     
     // Navigates to the product details screen when a row/cell is selected
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let selectedProduct = viewModel.filteredProducts[indexPath.row]
+        let selectedProduct = viewModel.filteredProductLists[indexPath.row]
         
         if let productDetailsVC = storyboard?.instantiateViewController(withIdentifier: "ProductDetailsViewController") as? ProductDetailsViewController {
             let productDetailsViewModel = ProductDetailsViewModel(product: selectedProduct)

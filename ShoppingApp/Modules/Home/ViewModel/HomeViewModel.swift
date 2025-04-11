@@ -10,8 +10,8 @@ import Combine
     
 class HomeViewModel: ObservableObject {
     // MARK: - Publishers
-    @Published var productLists = [ProductDetails]()
-    @Published var filteredProducts: [ProductDetails] = []
+    @Published var unfilteredProductLists = [ProductDetails]()
+    @Published var filteredProductLists: [ProductDetails] = []
     @Published var errorMessage: String?
     @Published var titleSortOption: SortOption = .ascending
     @Published var priceSortOption: SortOption = .lowestToHighest
@@ -35,8 +35,8 @@ class HomeViewModel: ObservableObject {
         coreDataManager.$products
             .receive(on: DispatchQueue.main)
             .sink { [weak self] products in
-                self?.productLists = products
-                self?.filteredProducts = products
+                self?.unfilteredProductLists = products
+                self?.filteredProductLists = products
                 self?.searchBarController.setProducts(products)
             }
             .store(in: &cancellables)
@@ -55,7 +55,7 @@ class HomeViewModel: ObservableObject {
         searchBarController.$filteredProducts
             .receive(on: DispatchQueue.main)
             .sink { [weak self] results in
-                self?.productLists = results
+                self?.filteredProductLists = results
             }
             .store(in: &cancellables)
     }
@@ -66,7 +66,7 @@ class HomeViewModel: ObservableObject {
     }
     
     func applyFilter(titleSortOption: SortOption, priceSortOption: SortOption, minPrice: Double, maxPrice: Double) {
-            var filtered = productLists.filter { $0.price >= minPrice && $0.price <= maxPrice }
+            var filtered = unfilteredProductLists.filter { $0.price >= minPrice && $0.price <= maxPrice }
             
             // Apply title sorting first
             switch titleSortOption {
@@ -88,7 +88,7 @@ class HomeViewModel: ObservableObject {
                 break
             }
 
-            filteredProducts = filtered
+            filteredProductLists = filtered
         }
 }
 
