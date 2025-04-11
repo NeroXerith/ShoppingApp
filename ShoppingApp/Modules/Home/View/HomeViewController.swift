@@ -2,8 +2,9 @@ import UIKit
 import Kingfisher
 import Combine
 
-class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
-    @IBOutlet weak var productTable: UITableView!
+class HomeViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {
+    
+    @IBOutlet weak var productCollection: UICollectionView!
     
     // MARK: - Variables
     private var viewModel = HomeViewModel() // Bind the viewModel
@@ -19,21 +20,39 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
     
     // MARK: - Config UI for this view
     private func setupUI() {
-        productTable.dataSource = self
-        productTable.delegate = self
+        productCollection.register(UINib(nibName: "HomeCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "ProductCollectionCell")
+
+        productCollection.dataSource = self
+        productCollection.delegate = self
         navigationItem.searchController = viewModel.searchBarController.searchController
+       
         
-        progressViewHandler = ProgressViewHandler(on: productTable, navigationBar: navigationController?.navigationBar)
+        progressViewHandler = ProgressViewHandler(on: productCollection, navigationBar: navigationController?.navigationBar)
         progressViewHandler.addRefreshAction(target: self, action: #selector(refresh))
     }
     
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        if let layout = productCollection.collectionViewLayout as? UICollectionViewFlowLayout {
+            let numberOfColumns: CGFloat = 2
+            let spacing: CGFloat = 10
+            
+            let totalSpacing = (numberOfColumns - 1) * spacing + layout.sectionInset.left + layout.sectionInset.right
+            
+            let itemWidth = (productCollection.bounds.width - totalSpacing) / numberOfColumns
+            
+            layout.itemSize = CGSize(width: itemWidth, height: itemWidth * 1.5)
+        }
+    }
     // MARK: - Subscribers
     private func observeViewModel() {
-        viewModel.$productLists
+        viewModel.$unfilteredProductLists
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] _ in self?.productTable.reloadData() }
+            .sink { [weak self] _ in self?.productCollection.reloadData() }
             .store(in: &cancellables)
         
+         
         viewModel.$isLoading
             .receive(on: DispatchQueue.main)
             .sink { [weak self] isLoading in
@@ -50,9 +69,9 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
             }
             .store(in: &cancellables)
         
-        viewModel.$filteredProducts
+        viewModel.$filteredProductLists
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] _ in self?.productTable.reloadData() }
+            .sink { [weak self] _ in self?.productCollection.reloadData() }
             .store(in: &cancellables)
     }
     
@@ -64,14 +83,15 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
     
     // MARK: - Populate the tableView, Delegates and DataSource
     // Determine the rows of the table view
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.filteredProducts.count
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return viewModel.filteredProductLists.count
     }
     
     // Configure the UI for a specific cell and populate it
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = productTable.dequeueReusableCell(withIdentifier: "ProductTableViewCell", for: indexPath) as! ProductTableViewCell
-        let product = viewModel.filteredProducts[indexPath.row]
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = productCollection.dequeueReusableCell(withReuseIdentifier: "ProductCollectionCell", for: indexPath) as! HomeCollectionViewCell
+        
+        let product = viewModel.filteredProductLists[indexPath.row]
         
         cell.prodNameLabel.text = product.title
         cell.prodPriceLabel.text = "$\(String(product.price))"
@@ -82,14 +102,26 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
     }
     
     // Navigates to the product details screen when a row/cell is selected
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let selectedProduct = viewModel.filteredProducts[indexPath.row]
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let selectedProduct = viewModel.filteredProductLists[indexPath.row]
         
         if let productDetailsVC = storyboard?.instantiateViewController(withIdentifier: "ProductDetailsViewController") as? ProductDetailsViewController {
             let productDetailsViewModel = ProductDetailsViewModel(product: selectedProduct)
             productDetailsVC.viewModel = productDetailsViewModel
             navigationController?.pushViewController(productDetailsVC, animated: true)
         }
+    }
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        if kind == UICollectionView.elementKindSectionHeader {
+                let header = collectionView.dequeueReusableSupplementaryView(
+                    ofKind: kind,
+                    withReuseIdentifier: "DiscoverSection",
+                    for: indexPath
+                ) as! SectionHeaderCollectionReusableView
+            
+                return header
+            }
+        return UICollectionReusableView()
     }
 
     
