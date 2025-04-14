@@ -35,16 +35,30 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
         super.viewDidLayoutSubviews()
         
         if let layout = productCollection.collectionViewLayout as? UICollectionViewFlowLayout {
-            let numberOfColumns: CGFloat = 2
             let spacing: CGFloat = 10
+            let availableWidth = productCollection.bounds.width
+            let minColumnWidth: CGFloat = 160
+            
+            let maxNumColumns = floor((availableWidth + spacing) / (minColumnWidth + spacing))
+            let numberOfColumns = max(1, maxNumColumns)
             
             let totalSpacing = (numberOfColumns - 1) * spacing + layout.sectionInset.left + layout.sectionInset.right
-            
-            let itemWidth = (productCollection.bounds.width - totalSpacing) / numberOfColumns
+            let itemWidth = (availableWidth - totalSpacing) / numberOfColumns
             
             layout.itemSize = CGSize(width: itemWidth, height: itemWidth * 1.5)
         }
     }
+
+    
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+        
+        coordinator.animate(alongsideTransition: { _ in
+            self.productCollection.collectionViewLayout.invalidateLayout()
+        }, completion: nil)
+    }
+
+    
     // MARK: - Subscribers
     private func observeViewModel() {
         viewModel.$unfilteredProductLists

@@ -21,24 +21,24 @@
                                 <rect key="frame" x="0.0" y="88" width="414" height="808"/>
                                 <subviews>
                                     <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" alwaysBounceVertical="YES" contentInsetAdjustmentBehavior="always" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Eha-D9-aWs" userLabel="Discover Products">
-                                        <rect key="frame" x="0.0" y="10" width="414" height="798"/>
+                                        <rect key="frame" x="0.0" y="280" width="414" height="528"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="8bT-bm-WWZ">
-                                            <size key="itemSize" width="128" height="128"/>
+                                            <size key="itemSize" width="200" height="128"/>
                                             <size key="headerReferenceSize" width="50" height="50"/>
                                             <size key="footerReferenceSize" width="0.0" height="0.0"/>
                                             <inset key="sectionInset" minX="10" minY="10" maxX="10" maxY="0.0"/>
                                         </collectionViewFlowLayout>
                                         <cells>
                                             <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" reuseIdentifier="ProductCollectionCell" id="Egm-Wg-4yC">
-                                                <rect key="frame" x="10" y="60" width="128" height="128"/>
+                                                <rect key="frame" x="10" y="60" width="160" height="128"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="8Nt-tV-7oS">
-                                                    <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="160" height="128"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                 </collectionViewCellContentView>
                                                 <color key="backgroundColor" red="0.27450981740000002" green="0.27843138579999999" blue="0.2823529541" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                                <size key="customSize" width="128" height="128"/>
+                                                <size key="customSize" width="160" height="128"/>
                                             </collectionViewCell>
                                         </cells>
                                         <collectionReusableView key="sectionHeaderView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" reuseIdentifier="DiscoverSection" id="wAh-4f-ci5" customClass="SectionHeaderCollectionReusableView" customModule="ShoppingApp" customModuleProvider="target">
@@ -71,10 +71,35 @@
                                             </constraints>
                                         </collectionReusableView>
                                     </collectionView>
+                                    <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="cme-0g-3Le">
+                                        <rect key="frame" x="8" y="8" width="406" height="264"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                        <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="IgF-iF-oBP">
+                                            <size key="itemSize" width="128" height="128"/>
+                                            <size key="headerReferenceSize" width="50" height="50"/>
+                                            <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                            <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                        </collectionViewFlowLayout>
+                                        <cells>
+                                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="w3q-I5-nNB">
+                                                <rect key="frame" x="50" y="68" width="128" height="128"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="wnv-t9-uWj">
+                                                    <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                </collectionViewCellContentView>
+                                            </collectionViewCell>
+                                        </cells>
+                                        <collectionReusableView key="sectionHeaderView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="QBN-hS-ptJ">
+                                            <rect key="frame" x="0.0" y="0.0" width="50" height="264"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </collectionReusableView>
+                                    </collectionView>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="secondarySystemFillColor"/>
                                 <constraints>
-                                    <constraint firstItem="Eha-D9-aWs" firstAttribute="top" secondItem="k8G-5s-FJt" secondAttribute="top" constant="10" id="FLM-ei-KjT"/>
+                                    <constraint firstItem="Eha-D9-aWs" firstAttribute="top" secondItem="k8G-5s-FJt" secondAttribute="top" constant="280" id="FLM-ei-KjT"/>
                                     <constraint firstItem="Eha-D9-aWs" firstAttribute="centerX" secondItem="wgI-T1-hde" secondAttribute="centerX" id="FRu-85-xC0"/>
                                     <constraint firstItem="Eha-D9-aWs" firstAttribute="bottom" secondItem="k8G-5s-FJt" secondAttribute="bottom" id="Tmf-O0-WAT"/>
                                     <constraint firstItem="Eha-D9-aWs" firstAttribute="leading" secondItem="wgI-T1-hde" secondAttribute="leading" id="bBj-Kc-z1p"/>
