@@ -71,11 +71,11 @@
                                             </constraints>
                                         </collectionReusableView>
                                     </collectionView>
-                                    <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="cme-0g-3Le">
+                                    <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceHorizontal="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="cme-0g-3Le" userLabel="Popular Products">
                                         <rect key="frame" x="8" y="8" width="406" height="264"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                        <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="IgF-iF-oBP">
+                                        <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="IgF-iF-oBP">
                                             <size key="itemSize" width="128" height="128"/>
                                             <size key="headerReferenceSize" width="50" height="50"/>
                                             <size key="footerReferenceSize" width="0.0" height="0.0"/>
@@ -83,7 +83,7 @@
                                         </collectionViewFlowLayout>
                                         <cells>
                                             <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="w3q-I5-nNB">
-                                                <rect key="frame" x="50" y="68" width="128" height="128"/>
+                                                <rect key="frame" x="0.0" y="50" width="128" height="128"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="wnv-t9-uWj">
                                                     <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
@@ -92,7 +92,7 @@
                                             </collectionViewCell>
                                         </cells>
                                         <collectionReusableView key="sectionHeaderView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="QBN-hS-ptJ">
-                                            <rect key="frame" x="0.0" y="0.0" width="50" height="264"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="406" height="50"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </collectionReusableView>
                                     </collectionView>
