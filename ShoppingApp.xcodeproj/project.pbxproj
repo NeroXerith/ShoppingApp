@@ -24,7 +24,6 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
-				Modules/Home/View/CollectionView/HomeCollectionViewCell.xib,
 			);
 			target = B683453C2D642E6E00C49928 /* ShoppingApp */;
 		};
