@@ -20,7 +20,7 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
     
     // MARK: - Config UI for this view
     private func setupUI() {
-        productCollection.register(UINib(nibName: "HomeCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "ProductCollectionCell")
+        productCollection.register(UINib(nibName: "DiscoverCollectionView", bundle: nil), forCellWithReuseIdentifier: "DiscoverCollectionViewCell")
 
         productCollection.dataSource = self
         productCollection.delegate = self
@@ -103,7 +103,7 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
     
     // Configure the UI for a specific cell and populate it
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = productCollection.dequeueReusableCell(withReuseIdentifier: "ProductCollectionCell", for: indexPath) as! HomeCollectionViewCell
+        let cell = productCollection.dequeueReusableCell(withReuseIdentifier: "DiscoverCollectionViewCell", for: indexPath) as! DiscoverCollectionView
         
         let product = viewModel.filteredProductLists[indexPath.row]
         

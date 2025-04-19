@@ -3,22 +3,4 @@
    uuid = "D52C37DB-2916-4873-98CE-CEFF085EFACF"
    type = "1"
    version = "2.0">
-   <Breakpoints>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "DB34CBE4-8539-4B25-B598-66A5B7C3C655"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "../../../../../var/folders/1_/c_6p9tmj2rx596s5g10kd4gh0000gp/T/xcode/scm/ShoppingApp/299dd11b4f30eab1e402c3270e82264e87d60ac5/ShoppingApp/Model/ShoppingListViewModel.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "12"
-            endingLineNumber = "12"
-            landmarkName = "ShoppingListViewModel"
-            landmarkType = "3">
-         </BreakpointContent>
-      </BreakpointProxy>
-   </Breakpoints>
 </Bucket>
