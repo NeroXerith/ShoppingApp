@@ -21,7 +21,7 @@ class SectionHeaderCollectionReusableView: UICollectionReusableView {
 
         switch title.lowercased() {
         case "popular products":
-            sectionIconImage.image = UIImage(systemName: "star.fill")
+            sectionIconImage.image = UIImage(systemName: "star")
         case "discover":
             sectionIconImage.image = UIImage(systemName: "magnifyingglass")
         default:
