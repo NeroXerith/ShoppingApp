@@ -271,8 +271,16 @@ class HomeViewController: UIViewController, UICollectionViewDataSource, UICollec
                     sheet.preferredCornerRadius = 25
                 }
                 
-        filterVC.applyFilter = { [weak self] titleSortOption, priceSortOption, minPrice, maxPrice in
-            self?.viewModel.applyFilter(titleSortOption: titleSortOption, priceSortOption: priceSortOption, minPrice: minPrice, maxPrice: maxPrice)
+        
+        filterVC.applyFilter = { [weak self] titleSortOption, priceSortOption, minPrice, maxPrice, isPriceByChecked, isPriceRangeChecked in
+            self?.viewModel.updateFilterOptions(
+                   titleSort: titleSortOption,
+                   priceSort: priceSortOption,
+                   minPrice: minPrice,
+                   maxPrice: maxPrice,
+                   isPriceByChecked: isPriceByChecked,
+                   isPriceRangeChecked: isPriceRangeChecked
+               )
         }
         
         present(filterVC, animated: true)

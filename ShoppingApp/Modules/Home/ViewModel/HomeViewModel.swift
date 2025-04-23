@@ -13,11 +13,12 @@ class HomeViewModel: ObservableObject {
     @Published var unfilteredProductLists = [ProductDetails]()
     @Published var filteredProductLists: [ProductDetails] = []
     @Published var errorMessage: String?
-    @Published var titleSortOption: SortOption = .ascending
-    @Published var priceSortOption: SortOption = .lowestToHighest
-    @Published var minPrice: Double = 0
-    @Published var maxPrice: Double = 100000
+    
+    // MARK: - Filter Properties
+    var filterViewModel = FilterViewModel()
+    
     @Published var isLoading: Bool = false
+
     
     // MARK: - Variables
     private var productFetcher = FetchProducts()
@@ -47,7 +48,6 @@ class HomeViewModel: ObservableObject {
                 self?.isLoading = isLoading
             }
             .store(in: &cancellables)
-        
     }
     
     // MARK: - [Subscriber]
@@ -65,30 +65,83 @@ class HomeViewModel: ObservableObject {
         coreDataManager.loadProductsFromAPI()
     }
     
-    func applyFilter(titleSortOption: SortOption, priceSortOption: SortOption, minPrice: Double, maxPrice: Double) {
-            var filtered = unfilteredProductLists.filter { $0.price >= minPrice && $0.price <= maxPrice }
-            
-            // Apply title sorting first
-            switch titleSortOption {
-            case .ascending:
-                filtered.sort { $0.title < $1.title }
-            case .descending:
-                filtered.sort { $0.title > $1.title }
-            default:
-                break
-            }
+    func updateFilterOptions(
+        titleSort: SortOption,
+        priceSort: SortOption,
+        minPrice: Double,
+        maxPrice: Double,
+        isPriceByChecked: Bool,
+        isPriceRangeChecked: Bool
+    ) {
+        filterViewModel.titleSortOption = titleSort
+        filterViewModel.priceSortOption = priceSort
+        filterViewModel.minPrice = minPrice
+        filterViewModel.maxPrice = maxPrice
+        filterViewModel.isPriceByChecked = isPriceByChecked
+        filterViewModel.isPriceRangeChecked = isPriceRangeChecked
 
-            // Apply price sorting after title sorting
-            switch priceSortOption {
-            case .lowestToHighest:
-                filtered.sort { $0.price < $1.price }
-            case .highestToLowest:
-                filtered.sort { $0.price > $1.price }
-            default:
-                break
-            }
+        applyFilter()
+    }
 
-            filteredProductLists = filtered
+    func applyFilter() {
+        var filtered = unfilteredProductLists
+
+        // Step 1: Apply Title sort FIRST
+        switch filterViewModel.titleSortOption {
+        case .ascending:
+            filtered.sort { $0.title.localizedCaseInsensitiveCompare($1.title) == .orderedAscending }
+            print("Applied title ascending")
+        case .descending:
+            filtered.sort { $0.title.localizedCaseInsensitiveCompare($1.title) == .orderedDescending }
+            print("Applied title descending")
+        default:
+            break
         }
+
+        // Step 2: Apply Price sort WITHIN titles
+        if filterViewModel.isPriceByChecked {
+            switch filterViewModel.priceSortOption {
+            case .lowestToHighest:
+                filtered.sort {
+                    if $0.title == $1.title {
+                        return $0.price < $1.price
+                    } else {
+                        return filterViewModel.titleSortOption == .ascending
+                            ? $0.title.localizedCaseInsensitiveCompare($1.title) == .orderedAscending
+                            : $0.title.localizedCaseInsensitiveCompare($1.title) == .orderedDescending
+                    }
+                }
+                print("Applied price: low to high within titles")
+            case .highestToLowest:
+                filtered.sort {
+                    if $0.title == $1.title {
+                        return $0.price > $1.price
+                    } else {
+                        return filterViewModel.titleSortOption == .ascending
+                            ? $0.title.localizedCaseInsensitiveCompare($1.title) == .orderedAscending
+                            : $0.title.localizedCaseInsensitiveCompare($1.title) == .orderedDescending
+                    }
+                }
+                print("Applied price: high to low within titles")
+            default:
+                break
+            }
+        }
+
+        // Step 3: Apply Price Range Filter
+        if filterViewModel.isPriceRangeChecked {
+            filtered = filtered.filter {
+                $0.price >= Double(filterViewModel.minPrice) &&
+                $0.price <= Double(filterViewModel.maxPrice)
+            }
+        }
+
+        self.filteredProductLists = filtered
+
+        print("Title sort: \(filterViewModel.titleSortOption)")
+        print("Price sort: \(filterViewModel.priceSortOption)")
+        print("Price sort enabled: \(filterViewModel.isPriceByChecked)")
+    }
+
 }
 
