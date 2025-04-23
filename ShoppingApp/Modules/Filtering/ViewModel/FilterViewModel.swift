@@ -13,11 +13,16 @@ class FilterViewModel: ObservableObject {
     @Published var priceSortOption: SortOption = .lowestToHighest
     @Published var minPrice: Double = 0
     @Published var maxPrice: Double = 100000
+
+    @Published var isPriceByChecked: Bool = false
+    @Published var isPriceRangeChecked: Bool = false
+
+    private var cancellables = Set<AnyCancellable>()
 }
 
-enum SortOption: String {
-    case ascending = "asc"
-    case descending = "desc"
-    case highestToLowest = "high_to_low"
-    case lowestToHighest = "low_to_high"
+enum SortOption {
+    case ascending
+    case descending
+    case highestToLowest
+    case lowestToHighest
 }
