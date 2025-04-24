@@ -99,11 +99,13 @@
                     </view>
                     <navigationItem key="navigationItem" title="Shopping List" id="2dd-ed-sW6">
                         <barButtonItem key="leftBarButtonItem" title="FilteringItems" image="line.3.horizontal.decrease" catalog="system" id="q8z-eC-cis">
+                            <color key="tintColor" red="0.75686275960000005" green="0.3688194206" blue="0.00099587248340000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                             <connections>
                                 <action selector="filterButtonTapped:" destination="BYZ-38-t0r" id="vtM-gF-Wg8"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="CartItems" image="cart.fill" catalog="system" id="coT-LB-5EB">
+                            <color key="tintColor" red="0.75686275960000005" green="0.3688194206" blue="0.00099587248340000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                             <connections>
                                 <action selector="gotoCartItemsAction:" destination="BYZ-38-t0r" id="LxN-rl-aUA"/>
                             </connections>
