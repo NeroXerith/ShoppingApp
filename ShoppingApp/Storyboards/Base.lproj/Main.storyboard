@@ -3,6 +3,7 @@
     <device id="retina6_5" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23506"/>
+        <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
@@ -21,7 +22,7 @@
                                 <rect key="frame" x="0.0" y="88" width="414" height="808"/>
                                 <subviews>
                                     <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" alwaysBounceVertical="YES" contentInsetAdjustmentBehavior="always" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Eha-D9-aWs" userLabel="Discover Products">
-                                        <rect key="frame" x="0.0" y="8" width="414" height="800"/>
+                                        <rect key="frame" x="0.0" y="30" width="414" height="800"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="8bT-bm-WWZ">
                                             <size key="itemSize" width="200" height="128"/>
@@ -87,14 +88,38 @@
                                 <viewLayoutGuide key="contentLayoutGuide" id="ate-cY-cHr"/>
                                 <viewLayoutGuide key="frameLayoutGuide" id="k8G-5s-FJt"/>
                             </scrollView>
+                            <tabBar contentMode="scaleToFill" itemPositioning="centered" translatesAutoresizingMaskIntoConstraints="NO" id="ifM-Yg-73P">
+                                <rect key="frame" x="0.0" y="815" width="414" height="83"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <items>
+                                    <tabBarItem title="Cart" image="cart.fill" catalog="system" id="uP4-KP-9vr">
+                                        <inset key="largeContentSizeImageInsets" minX="0.0" minY="20" maxX="0.0" maxY="0.0"/>
+                                        <imageReference key="selectedImage" image="cart.fill" catalog="system" renderingMode="hierarchical">
+                                            <hierarchicalColors>
+                                                <color red="0.75686275960000005" green="0.27843138579999999" blue="0.45098042490000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                <color red="0.75686275960000005" green="0.27843138579999999" blue="0.45098042490000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                <color red="0.75686275960000005" green="0.27843138579999999" blue="0.45098042490000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                            </hierarchicalColors>
+                                        </imageReference>
+                                    </tabBarItem>
+                                    <tabBarItem systemItem="favorites" id="bMJ-XN-sBT">
+                                        <inset key="largeContentSizeImageInsets" minX="0.0" minY="20" maxX="0.0" maxY="0.0"/>
+                                        <offsetWrapper key="titlePositionAdjustment" horizontal="0.0" vertical="0.0"/>
+                                    </tabBarItem>
+                                    <tabBarItem systemItem="more" id="e0r-vA-zha"/>
+                                </items>
+                            </tabBar>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="ifM-Yg-73P" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="2z5-zB-dPH"/>
                             <constraint firstItem="wgI-T1-hde" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="He3-FO-JGd"/>
+                            <constraint firstAttribute="bottom" secondItem="ifM-Yg-73P" secondAttribute="bottom" constant="-2" id="Rad-U5-IjY"/>
                             <constraint firstItem="wgI-T1-hde" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="Ry6-Hy-yRb"/>
                             <constraint firstAttribute="bottomMargin" secondItem="wgI-T1-hde" secondAttribute="bottom" constant="-34" id="i14-hN-A6n"/>
                             <constraint firstItem="wgI-T1-hde" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="oNg-qz-QRB"/>
+                            <constraint firstItem="ifM-Yg-73P" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="zpA-ni-QEb"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Shopping List" id="2dd-ed-sW6">
