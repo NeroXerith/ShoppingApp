@@ -15,21 +15,34 @@ struct UserProfile: View {
     var body: some View {
         ZStack {
             Color.gray.opacity(0.1)
-                .ignoresSafeArea()
-
             ScrollView {
                 VStack(spacing: 20) {
                     
                     // Profile Image
-                    Image("default-avatar")
-                        .resizable()
-                        .scaledToFill()
-                        .frame(width: 124, height: 124)
-                        .clipShape(Circle())
-                        .shadow(radius: 5)
-                        .padding(.top, 20)
-                        .accessibilityLabel("User Profile")
-                        .accessibilityIdentifier("UserProfileImage")
+                    ZStack {
+                        Circle()
+                            .strokeBorder(
+                                LinearGradient(
+                                    colors: [Color.orange, Color.red],
+                                    startPoint: .topLeading,
+                                    endPoint: .bottomTrailing
+                                ),
+                                lineWidth: 4
+                            )
+                            .frame(width: 134, height: 134)
+
+                        Image("default-avatar")
+                            .resizable()
+                            .scaledToFill()
+                            .frame(width: 124, height: 124)
+                            .clipShape(Circle())
+                    }
+                    .shadow(radius: 5)
+                    .padding(.top, 20)
+                    .accessibilityLabel("User Profile")
+                    .accessibilityIdentifier("UserProfileImage")
+
+                    
                     
                     // Basic Information Section
                     VStack(alignment: .leading, spacing: 16) {
@@ -97,60 +110,6 @@ struct UserProfile: View {
     }
 }
 
-// MARK: - Fancy Additional Info Card View
-struct AdditionalInfoCard: View {
-    let icon: String
-    let title: String
-    let gradientColors: [Color]
-    let badgeNumber: Int
-    
-    @State private var isPressed = false
-    
-    var body: some View {
-        VStack(spacing: 10) {
-            ZStack(alignment: .topTrailing) {
-                Circle()
-                    .fill(
-                        LinearGradient(colors: gradientColors, startPoint: .topTrailing, endPoint: .bottomLeading)
-                    )
-                    .frame(width: 95, height: 95)
-                    .scaleEffect(isPressed ? 1.2 : 1.0)
-                    .shadow(color: gradientColors.first?.opacity(0.6) ?? .black, radius: 10, x: 0, y: 5)
-                    .overlay(
-                        Image(systemName: icon)
-                            .font(.system(size: 35))
-                            .foregroundStyle(.white)
-                    )
-                    .onTapGesture {
-                        withAnimation(.interpolatingSpring(stiffness: 200, damping: 5)) {
-                            isPressed = true
-                        }
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                            withAnimation(.spring()) {
-                                isPressed = false
-                            }
-                        }
-                    }
-                
-                Circle()
-                    .fill(Color.blue)
-                    .frame(width: 30, height: 30)
-                    .overlay(
-                        Text("\(badgeNumber)")
-                            .font(.system(size: 16, weight: .bold))
-                            .foregroundStyle(.white)
-                    )
-                    .offset(x: 10, y: -10)
-            }
-            
-            Text(title)
-                .font(.subheadline)
-                .fontWeight(.semibold)
-                .foregroundColor(.primary)
-        }
-        .frame(maxWidth: .infinity)
-    }
-}
 
 #Preview {
     UserProfile()
