@@ -18,6 +18,7 @@ class ShoppingCartViewController: UIViewController, UITableViewDelegate, UITable
     @IBOutlet weak var voucherTextfield: UITextField!
     @IBOutlet weak var invalidCodeLabel: UILabel!
     
+    
     var viewModel = ShoppingCartViewModel()
     private var cancellables = Set<AnyCancellable>()
     
@@ -109,4 +110,13 @@ class ShoppingCartViewController: UIViewController, UITableViewDelegate, UITable
         viewModel.applyDiscount(voucherCode: code)
         invalidCodeLabel.isHidden = code == "STRAT50%OFF" || code == "STRAT25%OFF"
     }
+    
+    
+    @IBAction func goBackToHome(_ sender: Any) {
+        if let tabBarController = self.tabBarController {
+            // Set the selected index to the first tab (0)
+            tabBarController.selectedIndex = 0
+        }
+    }
+    
 }
