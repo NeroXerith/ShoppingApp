@@ -128,6 +128,79 @@ class CoreDataManager {
         }
     }
     
+    // MARK: - Save Favorite Product
+    func saveFavorite(product: ProductDetails) {
+        let context = persistentContainer.viewContext
+        
+        let favorite = NSEntityDescription.insertNewObject(forEntityName: "UserFavorites", into: context)
+        favorite.setValue(Int64(product.id), forKey: "itemId")
+        favorite.setValue(product.image, forKey: "itemImage")
+        favorite.setValue(product.title, forKey: "itemName")
+        
+        do {
+            try context.save()
+            print("Favorite saved successfully")
+        } catch {
+            print("Failed to save favorite: \(error)")
+        }
+    }
+    
+    func removeFavorite(productId: Int) {
+        let context = persistentContainer.viewContext
+        let fetchRequest: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: "UserFavorites")
+        fetchRequest.predicate = NSPredicate(format: "itemId == %d", Int64(productId))
+        
+        do {
+            if let results = try context.fetch(fetchRequest) as? [NSManagedObject],
+               let objectToDelete = results.first {
+                context.delete(objectToDelete)
+                try context.save()
+                print("Favorite removed successfully")
+            }
+        } catch {
+            print("Failed to remove favorite: \(error)")
+        }
+    }
+    
+    func isFavorite(productId: Int) -> Bool {
+        let context = persistentContainer.viewContext
+        let fetchRequest: NSFetchRequest<UserFavorites> = UserFavorites.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "itemId == %d", Int64(productId))
+        
+        do {
+            let count = try context.count(for: fetchRequest)
+            return count > 0
+        } catch {
+            print("Failed to check favorite: \(error)")
+            return false
+        }
+    }
+    
+    func loadFavorites() -> [UserFavorites] {
+        let context = persistentContainer.viewContext
+        let fetchRequest: NSFetchRequest<UserFavorites> = UserFavorites.fetchRequest()
+        
+        do {
+            return try context.fetch(fetchRequest)
+        } catch {
+            print("Failed to load favorites: \(error)")
+            return []
+        }
+    }
+    
+    func getTotalFavoritesCount() -> Int {
+            let context = persistentContainer.viewContext
+            let fetchRequest: NSFetchRequest<UserFavorites> = UserFavorites.fetchRequest()
+            
+            do {
+                let count = try context.count(for: fetchRequest)
+                return count
+            } catch {
+                print("Failed to count favorites: \(error)")
+                return 0
+            }
+        }
+    
 }
 
 
