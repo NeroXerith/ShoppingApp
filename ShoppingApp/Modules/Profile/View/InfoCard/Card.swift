@@ -30,16 +30,7 @@ struct AdditionalInfoCard: View {
                             .font(.system(size: 35))
                             .foregroundStyle(.white)
                     )
-                    .onTapGesture {
-                        withAnimation(.interpolatingSpring(stiffness: 200, damping: 5)) {
-                            isPressed = true
-                        }
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                            withAnimation(.spring()) {
-                                isPressed = false
-                            }
-                        }
-                    }
+
                 
                 Circle()
                     .fill(Color.blue)

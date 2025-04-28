@@ -10,6 +10,7 @@ import Combine
 
 class FilterViewController: UIViewController {
     var viewModel = FilterViewModel()
+    private var homeViewModel = HomeViewModel()
     var applyFilter: ((SortOption, SortOption, Double, Double, Bool, Bool) -> Void)?
     
     @IBOutlet weak var sortSegmentedControl: UISegmentedControl!
@@ -90,4 +91,9 @@ class FilterViewController: UIViewController {
         button?.setImage(UIImage(systemName: imageName), for: .normal)
         button?.tintColor = isChecked ? .systemBlue : .lightGray
     }
+    
+    @IBAction func resetFilterTapped(_ sender: Any) {
+        homeViewModel.refreshProducts()
+    }
+    
 }
