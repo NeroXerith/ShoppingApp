@@ -120,7 +120,7 @@
         <!--Product Details-->
         <scene sceneID="KyO-Ai-sPh">
             <objects>
-                <viewController storyboardIdentifier="ProductDetailsViewController" title="Product Details" id="tt5-KT-4I6" customClass="ProductDetailsViewController" customModule="ShoppingApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ProductDetailsViewController" title="Product Details" hidesBottomBarWhenPushed="YES" id="tt5-KT-4I6" customClass="ProductDetailsViewController" customModule="ShoppingApp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="21S-Iz-WeI">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -212,10 +212,21 @@
                                             <action selector="productAddToCart:" destination="tt5-KT-4I6" eventType="touchUpInside" id="NPK-f6-mw8"/>
                                         </connections>
                                     </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kbz-Q2-T9G">
+                                        <rect key="frame" x="344.33333333333331" y="14" width="50.666666666666686" height="34.333333333333336"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain">
+                                            <imageReference key="image" image="heart" catalog="system" symbolScale="large"/>
+                                        </buttonConfiguration>
+                                        <connections>
+                                            <action selector="favoriteButtonTapped:" destination="tt5-KT-4I6" eventType="touchUpInside" id="EhK-Kt-DhV"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="xQn-kP-EQP" firstAttribute="leading" secondItem="Mt9-7n-aIa" secondAttribute="leadingMargin" constant="12" id="2DO-jv-nTu"/>
                                     <constraint firstItem="aJi-HO-jkN" firstAttribute="top" secondItem="uIk-8a-uQJ" secondAttribute="bottom" constant="13" id="3PP-An-R77"/>
+                                    <constraint firstItem="kbz-Q2-T9G" firstAttribute="top" secondItem="Mt9-7n-aIa" secondAttribute="top" constant="14" id="7DF-dO-eMZ"/>
                                     <constraint firstItem="9aH-4U-sCm" firstAttribute="top" secondItem="C5i-zP-2jZ" secondAttribute="bottom" priority="250" constant="30" id="8OL-yS-aOy"/>
                                     <constraint firstItem="38S-jg-elQ" firstAttribute="top" secondItem="Mt9-7n-aIa" secondAttribute="top" constant="45" id="9hE-5R-dpL"/>
                                     <constraint firstItem="C5i-zP-2jZ" firstAttribute="top" secondItem="aJi-HO-jkN" secondAttribute="bottom" constant="8" symbolic="YES" id="DbU-Z9-MQc"/>
@@ -235,10 +246,12 @@
                                     <constraint firstAttribute="trailing" secondItem="C5i-zP-2jZ" secondAttribute="trailing" constant="20" symbolic="YES" id="UFN-Go-NFD"/>
                                     <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="uIk-8a-uQJ" secondAttribute="trailing" constant="20" symbolic="YES" id="Wnc-sl-DrR"/>
                                     <constraint firstItem="s9n-YW-Kaq" firstAttribute="leading" secondItem="Mt9-7n-aIa" secondAttribute="leading" constant="20" symbolic="YES" id="Xcu-tk-PgF"/>
+                                    <constraint firstAttribute="trailing" secondItem="kbz-Q2-T9G" secondAttribute="trailing" constant="19" id="Ypx-7T-adr"/>
                                     <constraint firstItem="9aH-4U-sCm" firstAttribute="leading" secondItem="Mt9-7n-aIa" secondAttribute="leading" priority="250" constant="18" id="arl-zW-zg4"/>
                                     <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="6kf-kH-jgY" secondAttribute="trailing" constant="20" symbolic="YES" id="dSs-XD-n5n"/>
                                     <constraint firstAttribute="trailingMargin" relation="greaterThanOrEqual" secondItem="aJi-HO-jkN" secondAttribute="trailing" id="dW3-ri-DRx"/>
                                     <constraint firstAttribute="trailing" secondItem="38S-jg-elQ" secondAttribute="trailing" constant="37" id="dWO-Zr-bgF"/>
+                                    <constraint firstItem="kbz-Q2-T9G" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Mt9-7n-aIa" secondAttribute="leading" constant="20" symbolic="YES" id="eJo-Va-1J5"/>
                                     <constraint firstItem="apt-Pm-kTV" firstAttribute="top" secondItem="38S-jg-elQ" secondAttribute="bottom" constant="22.670000000000002" id="m1w-Ce-BJj"/>
                                     <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="0Vt-Xe-jhx" secondAttribute="trailing" constant="20" symbolic="YES" id="nEN-n3-uCH"/>
                                     <constraint firstItem="apt-Pm-kTV" firstAttribute="leading" secondItem="s9n-YW-Kaq" secondAttribute="trailing" constant="6.3333333333332575" id="qLU-Gr-Q2T"/>
@@ -263,6 +276,7 @@
                     </view>
                     <connections>
                         <outlet property="averageStarView" destination="s9n-YW-Kaq" id="Jpj-R0-i8w"/>
+                        <outlet property="favoriteButton" destination="kbz-Q2-T9G" id="dWz-3E-Ni9"/>
                         <outlet property="imageProduct" destination="38S-jg-elQ" id="HcN-hy-YfQ"/>
                         <outlet property="productCategoryLabel" destination="xQn-kP-EQP" id="XSr-k8-vfm"/>
                         <outlet property="productDescriptionLabel" destination="C5i-zP-2jZ" id="diw-uw-erF"/>
@@ -275,7 +289,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dom-7e-hg4" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2604" y="1517"/>
+            <point key="canvasLocation" x="-2604.3478260869565" y="1516.7410714285713"/>
         </scene>
         <!--Your Cart Items-->
         <scene sceneID="rZ4-Rk-iaU">
@@ -601,6 +615,21 @@
             </objects>
             <point key="canvasLocation" x="190" y="1517"/>
         </scene>
+        <!--My Favorites-->
+        <scene sceneID="6AO-92-CfD">
+            <objects>
+                <viewController storyboardIdentifier="FavoritesViewController" title="My Favorites" hidesBottomBarWhenPushed="YES" id="dfD-CN-2jh" customClass="FavoritesViewController" customModule="ShoppingApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="qV3-dz-HkP">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="bpP-lu-a8Y"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="98A-aK-vAv" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1126" y="1517"/>
+        </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="SeG-nr-sRm">
             <objects>
@@ -683,6 +712,7 @@
     <resources>
         <image name="cart" catalog="system" width="128" height="102"/>
         <image name="chevron.backward" catalog="system" width="97" height="128"/>
+        <image name="heart" catalog="system" width="128" height="107"/>
         <image name="house" catalog="system" width="128" height="104"/>
         <image name="imageView:Js2-fO-fbh:image" width="128" height="117">
             <mutableData key="keyedArchiveRepresentation">

@@ -7,6 +7,8 @@
 import SwiftUI
 
 struct UserProfile: View {
+    @StateObject private var viewModel = UserProfileViewModel()
+    
     let columns = [
         GridItem(.flexible(), spacing: 20),
         GridItem(.flexible(), spacing: 20)
@@ -43,7 +45,6 @@ struct UserProfile: View {
                     .accessibilityIdentifier("UserProfileImage")
 
                     
-                    
                     // Basic Information Section
                     VStack(alignment: .leading, spacing: 16) {
                         VStack(alignment: .leading, spacing: 4) {
@@ -79,6 +80,7 @@ struct UserProfile: View {
                     .shadow(color: Color.primary.opacity(0.05), radius: 5, x: 0, y: 2)
                     .padding(.horizontal, 20)
                     
+                    
                     // Additional Information Section
                     VStack(alignment: .leading, spacing: 16) {
                         VStack(alignment: .leading, spacing: 4) {
@@ -92,9 +94,43 @@ struct UserProfile: View {
                         }
                         
                         LazyVGrid(columns: columns, alignment: .center, spacing: 20) {
-                            AdditionalInfoCard(icon: "heart.fill", title: "Favourites", gradientColors: [Color.red, Color.pink], badgeNumber: 9)
+                            AdditionalInfoCard(
+                                icon: "heart.fill",
+                                title: "Favorites",
+                                gradientColors: [Color.red, Color.pink],
+                                badgeNumber: viewModel.totalFavoritesCount
+                            ).onTapGesture {
+                                if let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+                                   let window = scene.windows.first,
+                                   let rootVC = window.rootViewController {
+                                    
+                                    var navController: UINavigationController?
+
+                                    if let nav = rootVC as? UINavigationController {
+                                        navController = nav
+                                    } else if let tab = rootVC as? UITabBarController {
+                                        navController = tab.selectedViewController as? UINavigationController
+                                    } else {
+                                        navController = rootVC.navigationController
+                                    }
+                                    
+                                    if let navController = navController {
+                                        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                                        if let favoriteVC = storyboard.instantiateViewController(withIdentifier: "FavoritesViewController") as? FavoritesViewController {
+                                            navController.pushViewController(favoriteVC, animated: true)
+                                        }
+                                    }
+                                }
+                            }
+
                             
-                            AdditionalInfoCard(icon: "cart.fill", title: "Your Orders", gradientColors: [Color.green, Color.green.opacity(0.7)], badgeNumber: 9)
+                            AdditionalInfoCard(
+                                icon: "cart.fill",
+                                title: "Orders",
+                                gradientColors: [Color.green, Color.green.opacity(0.7)],
+                                badgeNumber: 0
+                            )
+                            
                         }
                     }
                     .padding()
@@ -107,9 +143,11 @@ struct UserProfile: View {
                 }
             }
         }
+        .onAppear {
+            viewModel.fetchTotalFavoritesCount() // Fetch when screen appears
+        }
     }
 }
-
 
 #Preview {
     UserProfile()

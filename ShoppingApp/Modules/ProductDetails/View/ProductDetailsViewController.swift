@@ -14,6 +14,7 @@ class ProductDetailsViewController: UIViewController {
     @IBOutlet weak var averageStarView: AverageStarView!
     @IBOutlet weak var scrollView: UIScrollView!
     
+    @IBOutlet weak var favoriteButton: UIButton!
     // MARK: - Properties
     var viewModel: ProductDetailsViewModel! 
     private var progressViewHandler: ProgressViewHandler!
@@ -61,6 +62,14 @@ class ProductDetailsViewController: UIViewController {
                 ProductImageManager.loadImage(into: self.imageProduct, from: imageURL)
             }
             .store(in: &cancellables)
+        
+        viewModel.$isFavorite
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                self?.updateFavoriteButtonImage()
+            }
+            .store(in: &cancellables)
+
     }
     
     // MARK: -
@@ -91,4 +100,15 @@ class ProductDetailsViewController: UIViewController {
         alert.addAction(UIAlertAction(title: "OK", style: .default))
         present(alert, animated: true)
     }
+    
+    @IBAction func favoriteButtonTapped(_ sender: Any) {
+        viewModel.toggleFavorite()
+        updateFavoriteButtonImage()
+    }
+    
+    private func updateFavoriteButtonImage() {
+        let imageName = viewModel.isFavorite ? "heart.fill" : "heart"
+        favoriteButton.setImage(UIImage(systemName: imageName), for: .normal)
+    }
+    
 }
