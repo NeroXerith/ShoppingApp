@@ -99,7 +99,30 @@ struct UserProfile: View {
                                 title: "Favorites",
                                 gradientColors: [Color.red, Color.pink],
                                 badgeNumber: viewModel.totalFavoritesCount
-                            )
+                            ).onTapGesture {
+                                if let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+                                   let window = scene.windows.first,
+                                   let rootVC = window.rootViewController {
+                                    
+                                    var navController: UINavigationController?
+
+                                    if let nav = rootVC as? UINavigationController {
+                                        navController = nav
+                                    } else if let tab = rootVC as? UITabBarController {
+                                        navController = tab.selectedViewController as? UINavigationController
+                                    } else {
+                                        navController = rootVC.navigationController
+                                    }
+                                    
+                                    if let navController = navController {
+                                        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                                        if let favoriteVC = storyboard.instantiateViewController(withIdentifier: "FavoritesViewController") as? FavoritesViewController {
+                                            navController.pushViewController(favoriteVC, animated: true)
+                                        }
+                                    }
+                                }
+                            }
+
                             
                             AdditionalInfoCard(
                                 icon: "cart.fill",
@@ -107,6 +130,7 @@ struct UserProfile: View {
                                 gradientColors: [Color.green, Color.green.opacity(0.7)],
                                 badgeNumber: 0
                             )
+                            
                         }
                     }
                     .padding()

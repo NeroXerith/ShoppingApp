@@ -1,35 +1,27 @@
 //
-//  UserProfileController.swift
+//  FavoritesViewController.swift
 //  ShoppingApp
 //
-//  Created by Biene Bryle Sanico on 4/25/25.
+//  Created by Biene Bryle Sanico on 4/28/25.
 //
 
 import UIKit
 import SwiftUI
 
-class UserProfileController: UIViewController {
-
+class FavoritesViewController: UIViewController {
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        // Apply Tab Bar appearance for the UserProfile tab
-        if let tabBarController = self.tabBarController {
-            let appearance = UITabBarAppearance()
-            appearance.configureWithDefaultBackground()
-            appearance.backgroundEffect = UIBlurEffect(style: .regular)  // Apply Blur effect
-            appearance.backgroundColor = .clear
-            
-            tabBarController.tabBar.standardAppearance = appearance
-            tabBarController.tabBar.scrollEdgeAppearance = appearance
-        }
-
+        showSwiftUIView()
+    }
+    
+    private func showSwiftUIView() {
         // SwiftUI View
-        let userProfileSwiftUIView = UserProfile()
+        let favoriteSwiftUIView = Favorites()
         // Embed SwiftUI to UIKit View Controller
-        let hostingController = UIHostingController(rootView: userProfileSwiftUIView)
-
+        let hostingController = UIHostingController(rootView: favoriteSwiftUIView)
         addChild(hostingController)
+    
         hostingController.view.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(hostingController.view)
 

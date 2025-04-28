@@ -615,6 +615,21 @@
             </objects>
             <point key="canvasLocation" x="190" y="1517"/>
         </scene>
+        <!--My Favorites-->
+        <scene sceneID="6AO-92-CfD">
+            <objects>
+                <viewController storyboardIdentifier="FavoritesViewController" title="My Favorites" hidesBottomBarWhenPushed="YES" id="dfD-CN-2jh" customClass="FavoritesViewController" customModule="ShoppingApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="qV3-dz-HkP">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="bpP-lu-a8Y"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="98A-aK-vAv" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1126" y="1517"/>
+        </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="SeG-nr-sRm">
             <objects>
