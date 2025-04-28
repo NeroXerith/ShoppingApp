@@ -7,6 +7,8 @@
 import SwiftUI
 
 struct UserProfile: View {
+    @StateObject private var viewModel = UserProfileViewModel()
+    
     let columns = [
         GridItem(.flexible(), spacing: 20),
         GridItem(.flexible(), spacing: 20)
@@ -43,7 +45,6 @@ struct UserProfile: View {
                     .accessibilityIdentifier("UserProfileImage")
 
                     
-                    
                     // Basic Information Section
                     VStack(alignment: .leading, spacing: 16) {
                         VStack(alignment: .leading, spacing: 4) {
@@ -79,6 +80,7 @@ struct UserProfile: View {
                     .shadow(color: Color.primary.opacity(0.05), radius: 5, x: 0, y: 2)
                     .padding(.horizontal, 20)
                     
+                    
                     // Additional Information Section
                     VStack(alignment: .leading, spacing: 16) {
                         VStack(alignment: .leading, spacing: 4) {
@@ -92,9 +94,19 @@ struct UserProfile: View {
                         }
                         
                         LazyVGrid(columns: columns, alignment: .center, spacing: 20) {
-                            AdditionalInfoCard(icon: "heart.fill", title: "Favourites", gradientColors: [Color.red, Color.pink], badgeNumber: 9)
+                            AdditionalInfoCard(
+                                icon: "heart.fill",
+                                title: "Favorites",
+                                gradientColors: [Color.red, Color.pink],
+                                badgeNumber: viewModel.totalFavoritesCount
+                            )
                             
-                            AdditionalInfoCard(icon: "cart.fill", title: "Your Orders", gradientColors: [Color.green, Color.green.opacity(0.7)], badgeNumber: 9)
+                            AdditionalInfoCard(
+                                icon: "cart.fill",
+                                title: "Orders",
+                                gradientColors: [Color.green, Color.green.opacity(0.7)],
+                                badgeNumber: 0
+                            )
                         }
                     }
                     .padding()
@@ -107,9 +119,11 @@ struct UserProfile: View {
                 }
             }
         }
+        .onAppear {
+            viewModel.fetchTotalFavoritesCount() // Fetch when screen appears
+        }
     }
 }
-
 
 #Preview {
     UserProfile()
