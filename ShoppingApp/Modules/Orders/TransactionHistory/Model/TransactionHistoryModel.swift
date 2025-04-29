@@ -7,8 +7,3 @@
 
 import Foundation
 
-struct TransactionHistoryModel: Identifiable {    
-    var transactionId: String
-    var date: String
-    var amount: Double
-}
