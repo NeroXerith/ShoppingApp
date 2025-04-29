@@ -201,6 +201,100 @@ class CoreDataManager {
             }
         }
     
+    
+    // MARK: - Save Transaction
+    func saveTransaction(cartItems: [Cart], totalAmount: Double) {
+        let context = persistentContainer.viewContext
+        
+        // Create new Transaction
+        let transaction = Transaction(context: context)
+        transaction.transactionId = UUID().uuidString
+        transaction.datePurchased = Date()
+        transaction.totalAmount = totalAmount
+        
+        // Add each cart item to the transaction
+        for cartItem in cartItems {
+            let newItem = CartItem(context: context)
+            newItem.itemId = cartItem.itemCartId
+            newItem.itemName = cartItem.itemCartName
+            newItem.itemDescription = cartItem.itemCartDescription
+            newItem.itemCategory = cartItem.itemCartCategory
+            newItem.itemImageURL = cartItem.itemCartImageURL
+            newItem.itemPrice = cartItem.itemCartPrice
+            newItem.quantity = cartItem.itemCartQty
+            newItem.transaction = transaction 
+        }
+        
+        do {
+            try context.save()
+            print("Transaction saved successfully!")
+        } catch {
+            print("Failed to save transaction: \(error)")
+        }
+    }
+
+    // MARK: - User Data
+    func fetchUser() -> UserData? {
+        let context = persistentContainer.viewContext
+        let request: NSFetchRequest<UserData> = UserData.fetchRequest()
+        request.fetchLimit = 1
+        do {
+            return try context.fetch(request).first
+        } catch {
+            print("Error fetching user: \(error)")
+            return nil
+        }
+    }
+    
+    func saveUserData(name: String, email: String, contactNumber: Int64, address: String, avatarImage: UIImage? = nil) {
+        let context = persistentContainer.viewContext
+        let userData = UserData(context: context)
+        userData.name = name
+        userData.email = email
+        userData.contactNumber = contactNumber
+        userData.address = address
+        userData.avatarImg = avatarImage?.jpegData(compressionQuality: 0.8)
+
+        do {
+            try context.save()
+            print("User Data saved successfully!")
+        } catch {
+            print("Failed to save user data: \(error)")
+        }
+    }
+
+    func updateUserData(name: String, email: String, contactNumber: Int64, address: String, avatarImage: UIImage?) {
+            let context = persistentContainer.viewContext
+            if let user = fetchUser() {
+                user.name = name
+                user.email = email
+                user.contactNumber = contactNumber
+                user.address = address
+                if let avatarImage = avatarImage {
+                    user.avatarImg = avatarImage.jpegData(compressionQuality: 0.8)
+                }
+                
+                do {
+                    try context.save()
+                } catch {
+                    print("Failed to update user: \(error)")
+                }
+            }
+        }
+    
+    func updateUserAvatar(image: UIImage) {
+        let context = persistentContainer.viewContext
+        guard let user = fetchUser() else { return }
+        user.avatarImg = image.jpegData(compressionQuality: 0.8)
+        if context.hasChanges{
+            do {
+                try context.save()
+                print("User avatar saved successfully!")
+            } catch {
+                print("Failed to save user avatar: \(error)")
+            }
+        }
+    }
 }
 
 

@@ -12,3 +12,5 @@ struct FavoriteItem: Identifiable {
     var name: String
     var image: String
 }
+
+

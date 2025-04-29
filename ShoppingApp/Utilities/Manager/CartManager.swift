@@ -127,6 +127,10 @@ class CartManager {
         }
     }
     
+    func clearCart() {
+        cartItems.removeAll()
+    }
+    
     private func saveContext(context: NSManagedObjectContext) {
         do {
             try context.save()
