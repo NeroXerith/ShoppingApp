@@ -101,11 +101,13 @@ class ProductDetailsViewController: UIViewController {
         present(alert, animated: true)
     }
     
+    // MARK: - Action button to add the item as Favorite
     @IBAction func favoriteButtonTapped(_ sender: Any) {
         viewModel.toggleFavorite()
         updateFavoriteButtonImage()
     }
     
+    // Helper function to update UI Image of favorite button
     private func updateFavoriteButtonImage() {
         let imageName = viewModel.isFavorite ? "heart.fill" : "heart"
         favoriteButton.setImage(UIImage(systemName: imageName), for: .normal)

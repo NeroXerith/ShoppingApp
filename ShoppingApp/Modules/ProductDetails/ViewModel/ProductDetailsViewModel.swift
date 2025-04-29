@@ -35,6 +35,7 @@ class ProductDetailsViewModel: ObservableObject {
     }
     
     // MARK: - Favorite Product
+    // checks if item is already added as favorite
     func loadFavoriteProducts() {
         isLoading = true
         guard let product = product else { return }
@@ -42,7 +43,7 @@ class ProductDetailsViewModel: ObservableObject {
         isFavorite = coreDataManager.isFavorite(productId: product.id)
         isLoading = false
     }
-    
+    // function that saves the item or remove to the container
     func toggleFavorite() {
         guard let product = product else { return }
         if isFavorite {
