@@ -630,6 +630,21 @@
             </objects>
             <point key="canvasLocation" x="1126" y="1517"/>
         </scene>
+        <!--Transaction History-->
+        <scene sceneID="tWQ-Ji-xph">
+            <objects>
+                <viewController title="Transaction History" id="qAA-zT-2Pi" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="xxG-GE-FZU">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="u4r-Mt-a9f"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="H3a-Sx-2BI" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1931" y="1520"/>
+        </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="SeG-nr-sRm">
             <objects>
